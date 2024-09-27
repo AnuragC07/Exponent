@@ -10,7 +10,6 @@ import TransactionDetail from "../components/TransactionDetail";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-
 const Home = () => {
   const [transactions, setTransactions] = useState([]);
   const [amount, setAmount] = useState(0);
@@ -52,9 +51,9 @@ const Home = () => {
       type,
       source,
       date,
-      category
+      category,
     };
-  
+
     axios
       .post("http://localhost:8000/", data)
       .then((res) => {
@@ -68,9 +67,9 @@ const Home = () => {
   return (
     <div>
       <Navbar />
-      <div className="flex">
+      <div className="flex h-full bg-stone-900">
         <LeftBar />
-        <main className="w-screen p-2  px-4 rounded-xl">
+        <main className="w-screen p-2  px-4 rounded-3xl bg-stone-950 pt-4 mt-4 mb-4 shadow-md">
           {/* <h1 className="text-2xl font-normal text-stone-500">
             Welcome back, Anurag
           </h1> */}
@@ -78,48 +77,52 @@ const Home = () => {
           <section className="flex flex-col ">
             <div className="flex flex-col items-center mt-4">
               <div className="flex justify-around w-full">
-                <ArrowBackIosRoundedIcon className="text-stone-500 cursor-pointer" />
-                <h1 className="text-stone-600 text-2xl pb-2 font-semibold">
+                <div className="flex justify-center items-center">
+                  <ArrowBackIosRoundedIcon className="text-stone-400 border border-stone-800 bg-stone-800 rounded-full p-1 cursor-pointer" />
+                </div>
+                <h1 className="text-stone-300 text-2xl pb-2 font-semibold">
                   August
                 </h1>
-                <ArrowForwardIosRoundedIcon className="text-stone-500 cursor-pointer" />
+                <div className="flex justify-center items-center">
+                  <ArrowForwardIosRoundedIcon className="text-stone-400 border border-stone-800 bg-stone-800 rounded-full p-1 cursor-pointer" />
+                </div>
               </div>
-              <section className="h-72 bg-green-50 rounded-3xl p-4 mt-8 w-full">
+              <section className="h-72 bg-stone-700 rounded-3xl p-4 mt-8 w-full">
                 <h1>Analytics</h1>
               </section>
               <section>
                 <MonthlyBudget />
-                <section className="mt-10 border border-stone-200 rounded-2xl p-8 w-full shadow-md">
+                <section className="mt-10 border border-stone-800 rounded-2xl p-8 w-full shadow-xl ">
                   <div>
-                    <h1 className="text-xl text-stone-600 mb-8">
+                    <h1 className="text-xl text-stone-200 mb-8">
                       Add a new Entry
                     </h1>
                     <input
                       type="text"
                       placeholder="Enter Amount"
-                      className="border rounded-lg h-10 w-48 px-4 m-2"
+                      className=" rounded-lg h-10 w-48 px-4 m-2 bg-stone-800 text-stone-200 placeholder:text-stone-500"
                       onChange={(e) => setAmount(e.target.value)}
                     />
                     <input
                       type="text"
                       placeholder="Enter Type earning / expense "
-                      className="border rounded-lg h-10 w-64 px-4 m-2"
+                      className="rounded-lg h-10 w-64 px-4 m-2 bg-stone-800 text-stone-200 placeholder:text-stone-500"
                       onChange={handleType}
                     />
                     <input
                       type="text"
                       placeholder="Enter Source ie. Gpay"
-                      className="border rounded-lg h-10 w-48 px-4 m-2"
+                      className="rounded-lg h-10 w-48 px-4 m-2 bg-stone-800 text-stone-200 placeholder:text-stone-500"
                       onChange={(e) => setSource(e.target.value)}
                     />
                     <input
                       type="date"
-                      className="border rounded-lg h-10 w-48 px-4 m-2 text-stone-400 cursor-pointer"
+                      className="rounded-lg h-10 w-48 px-4 m-2 cursor-pointer bg-stone-800 text-stone-200 placeholder:text-stone-500"
                       placeholder="Add Date"
                       onChange={(e) => setDate(e.target.value)}
                     />
                     <select
-                      className="border rounded-lg h-10 w-48 px-4 m-2 text-stone-400 cursor-pointer"
+                      className="rounded-lg h-10 w-48 px-4 m-2 cursor-pointer bg-stone-800 text-stone-200 placeholder:text-stone-500"
                       onChange={(e) => setCategory(e.target.value)}
                     >
                       <option
@@ -154,12 +157,15 @@ const Home = () => {
                       </option>
                     </select>
                   </div>
-                  <button className="border rounded-lg bg-green-600 px-4 ml-2 p-1 mt-10 text-white" onClick={handleListTransaction}>
+                  <button
+                    className="rounded-md bg-green-900 px-4 ml-2 p-1 mt-10 text-white"
+                    onClick={handleListTransaction}
+                  >
                     Add Entry
                   </button>
                 </section>
                 <div className="flex justify-center items-center mt-10">
-                  <h1 className="text-lg">Recent Transactions</h1>
+                  <h1 className="text-xl text-stone-200">Recent Transactions</h1>
                 </div>
               </section>
               <div className="flex flex-row mt-8">
@@ -169,23 +175,23 @@ const Home = () => {
               </div>
             </div>
             <div className="flex justify-start items-start gap-2 cursor-pointer">
-              <SortRoundedIcon className="text-stone-600" />
-              <h1 className="text-stone-600">sort</h1>
+              <SortRoundedIcon className="text-stone-500" />
+              <h1 className="text-stone-500">sort</h1>
             </div>
             <section className="flex flex-col gap-4 mt-4  p-4">
-            {transactions
-            .slice()
-            .reverse()
-            .map((transaction, index) => (
-              <TransactionDetail
-                key={index}
-                date={transaction.date}
-                source={transaction.source}
-                category={transaction.category}
-                type={transaction.type}
-                amount={transaction.amount}
-              />
-            ))}
+              {transactions
+                .slice()
+                .reverse()
+                .map((transaction, index) => (
+                  <TransactionDetail
+                    key={index}
+                    date={transaction.date}
+                    source={transaction.source}
+                    category={transaction.category}
+                    type={transaction.type}
+                    amount={transaction.amount}
+                  />
+                ))}
             </section>
           </section>
         </main>
