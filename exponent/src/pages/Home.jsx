@@ -6,7 +6,65 @@ import SortRoundedIcon from "@mui/icons-material/SortRounded";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import MonthlyBudget from "../components/MonthlyBudget";
+import TransactionDetail from "../components/TransactionDetail";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+
 const Home = () => {
+  const [transactions, setTransactions] = useState([]);
+  const [amount, setAmount] = useState(0);
+  const [type, setType] = useState("");
+  const [source, setSource] = useState("");
+  const [date, setDate] = useState("");
+  const [category, setCategory] = useState("");
+  useEffect(() => {
+    // // Retrieve the token from local storage
+    // const token = localStorage.getItem("jwtToken");
+    // // console.log("Token:", token);
+    // // Set the Authorization header in axios request config
+    // const config = {
+    //   headers: {
+    //     Authorization: `Bearer ${token}`,
+    //   },
+    // };
+
+    // Send the GET request with the token included in the headers
+    axios
+      .get("http://localhost:8000/")
+      .then((response) => {
+        setTransactions(response.data.data);
+        console.log(response.data.data);
+      })
+      .catch((error) => {
+        console.log("Axios Error:", error);
+      });
+  }, []);
+
+  const handleType = (e) => {
+    // Convert the input to lowercase and update state
+    setType(e.target.value.toLowerCase());
+  };
+
+  const handleListTransaction = () => {
+    const data = {
+      amount,
+      type,
+      source,
+      date,
+      category
+    };
+  
+    axios
+      .post("http://localhost:8000/", data)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log("Error occurred! Please fill out all fields. ", error);
+      });
+  };
+
   return (
     <div>
       <Navbar />
@@ -40,25 +98,29 @@ const Home = () => {
                       type="text"
                       placeholder="Enter Amount"
                       className="border rounded-lg h-10 w-48 px-4 m-2"
+                      onChange={(e) => setAmount(e.target.value)}
                     />
                     <input
                       type="text"
-                      placeholder="Enter Type ie. Expense / Earning "
-                      className="border rounded-lg h-10 w-48 px-4 m-2"
+                      placeholder="Enter Type earning / expense "
+                      className="border rounded-lg h-10 w-64 px-4 m-2"
+                      onChange={handleType}
                     />
                     <input
                       type="text"
                       placeholder="Enter Source ie. Gpay"
                       className="border rounded-lg h-10 w-48 px-4 m-2"
+                      onChange={(e) => setSource(e.target.value)}
                     />
                     <input
                       type="date"
                       className="border rounded-lg h-10 w-48 px-4 m-2 text-stone-400 cursor-pointer"
                       placeholder="Add Date"
+                      onChange={(e) => setDate(e.target.value)}
                     />
                     <select
                       className="border rounded-lg h-10 w-48 px-4 m-2 text-stone-400 cursor-pointer"
-                      
+                      onChange={(e) => setCategory(e.target.value)}
                     >
                       <option
                         value="Entertainment"
@@ -92,7 +154,7 @@ const Home = () => {
                       </option>
                     </select>
                   </div>
-                  <button className="border rounded-lg bg-green-600 px-4 ml-2 p-1 mt-10 text-white">
+                  <button className="border rounded-lg bg-green-600 px-4 ml-2 p-1 mt-10 text-white" onClick={handleListTransaction}>
                     Add Entry
                   </button>
                 </section>
@@ -111,24 +173,19 @@ const Home = () => {
               <h1 className="text-stone-600">sort</h1>
             </div>
             <section className="flex flex-col gap-4 mt-4  p-4">
-              <div className="flex justify-evenly">
-                <p className="text-stone-600">2 August 2024</p>
-                <p className="text-stone-600">from Gpay</p>
-                <p className="text-stone-600">Bills</p>
-                <h1 className="text-xl text-green-700 font-semibold">234 ₹</h1>
-              </div>
-              <div className="flex justify-evenly">
-                <p className="text-stone-600">2 August 2024</p>
-                <p className="text-stone-600">from Gpay</p>
-                <p className="text-stone-600">Bills</p>
-                <h1 className="text-xl text-green-700 font-semibold">181 ₹</h1>
-              </div>
-              <div className="flex justify-evenly">
-                <p className="text-stone-600">2 August 2024</p>
-                <p className="text-stone-600">from Gpay</p>
-                <p className="text-stone-600">Bills</p>
-                <h1 className="text-xl text-red-400 font-semibold">85 ₹</h1>
-              </div>
+            {transactions
+            .slice()
+            .reverse()
+            .map((transaction, index) => (
+              <TransactionDetail
+                key={index}
+                date={transaction.date}
+                source={transaction.source}
+                category={transaction.category}
+                type={transaction.type}
+                amount={transaction.amount}
+              />
+            ))}
             </section>
           </section>
         </main>
