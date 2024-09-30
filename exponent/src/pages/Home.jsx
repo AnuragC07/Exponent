@@ -7,8 +7,13 @@ import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import MonthlyBudget from "../components/MonthlyBudget";
 import TransactionDetail from "../components/TransactionDetail";
+
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Analytics from "../components/Analytics";
+
+
+
 
 const Home = () => {
   const [transactions, setTransactions] = useState([]);
@@ -87,9 +92,7 @@ const Home = () => {
                   <ArrowForwardIosRoundedIcon className="text-stone-400 border border-stone-800 bg-stone-800 rounded-full p-1 cursor-pointer" />
                 </div>
               </div>
-              <section className="h-72 bg-stone-700 rounded-3xl p-4 mt-8 w-full">
-                <h1>Analytics</h1>
-              </section>
+              <Analytics />
               <section>
                 <MonthlyBudget />
                 <section className="mt-10 border border-stone-800 rounded-2xl p-8 w-full shadow-xl ">
