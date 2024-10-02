@@ -130,7 +130,7 @@ const Home = () => {
                     >
                       <option
                         value="Entertainment"
-                        className="cursor-pointer outline-none text-xs font-semibold rounded-xl px-3 py-1"
+                        className="cursor-pointer outline-none text-xs font-semibold rounded-xl px-3 py-1 text-stone-500 placeholder:text-stone-400"
                       >
                         Select Category
                       </option>
@@ -161,7 +161,7 @@ const Home = () => {
                     </select>
                   </div>
                   <button
-                    className="rounded-md bg-green-900 px-4 ml-2 p-1 mt-10 text-white"
+                    className="rounded-md bg-stone-900 px-6 ml-2 py-2 p-1 mt-10 text-white"
                     onClick={handleListTransaction}
                   >
                     Add Entry
