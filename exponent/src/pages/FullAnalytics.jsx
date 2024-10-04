@@ -176,8 +176,59 @@ const FullAnalytics = () => {
                 </section>
               </div>
             </div>
-            <div className="h-72 bg-stone-900 rounded-3xl p-4 mt-4 w-full cursor-pointer">
-                {/* monthly budget stuff */}
+            <div className="h-72 bg-stone-900 rounded-3xl p-4 mt-4 w-full cursor-pointer flex flex-wrap gap-4">
+              {/* monthly budget stuff */}
+              <section className=" h-28 w-52 rounded-3xl border border-stone-800 bg-stone-900 justify-center items-center flex flex-col shadow-md ">
+                <h1 className="text-3xl text-green-600 font-semibold">
+                  {" "}
+                  {earnings}
+                </h1>
+                <p className="text-xs text-stone-400 mt-2">Monthly Budget</p>
+              </section>
+              {isHigher ? (
+                <section className=" h-28 w-fit px-4 rounded-3xl justify-center items-center flex flex-col shadow-md border border-stone-800 bg-stone-900">
+                  <h1 className="text-xl text-green-600 font-semibold">
+                    {" "}
+                    {Math.abs(savingsDifference).toFixed(2)}%
+                  </h1>
+                  <p className="text-xs text-stone-400 mt-2">
+                    You are under budget
+                  </p>
+                </section>
+              ) : (
+                <section className=" h-28 w-fit px-4 rounded-3xl justify-center items-center flex flex-col shadow-md border border-stone-800 bg-stone-900">
+                  <h1 className="text-xl text-red-400 font-semibold">
+                    {" "}
+                    {Math.abs(savingsDifference).toFixed(2)}%
+                  </h1>
+                  <p className="text-xs text-stone-400 mt-2">
+                    {" "}
+                    You are over budget
+                  </p>
+                </section>
+              )}
+              {isHigher ? (
+                <section className=" h-28 w-fit px-4 rounded-3xl justify-center items-center flex flex-col shadow-md border border-stone-800 bg-stone-900">
+                  <h1 className="text-xl text-green-600 font-semibold">
+                    {" "}
+                    {Math.abs(savingsDifference).toFixed(2)}%
+                  </h1>
+                  <p className="text-xs text-stone-400 mt-2">
+                    You are under budget
+                  </p>
+                </section>
+              ) : (
+                <section className=" h-28 w-fit px-4 rounded-3xl justify-center items-center flex flex-col shadow-md border border-stone-800 bg-stone-900">
+                  <h1 className="text-xl text-red-400 font-semibold">
+                    {" "}
+                    {Math.abs(savingsDifference).toFixed(2)}%
+                  </h1>
+                  <p className="text-xs text-stone-400 mt-2">
+                    {" "}
+                    You are over budget
+                  </p>
+                </section>
+              )}
             </div>
           </div>
         </section>
