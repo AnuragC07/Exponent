@@ -1,14 +1,48 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+
 const MonthlyBudget = () => {
+  const [fetchedAmount, setFetchedAmount] = useState(0);
+  const [amount, setAmount] = useState(0);
+  const [month, setMonth] = useState("");
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/budget")
+      .then((response) => {
+        setFetchedAmount(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log("Axios Error:", error);
+      });
+  }, []);
+
+  const handleBudgetSubmit = () => {
+    const data = {
+      amount,
+      month,
+    };
+    axios
+      .post("http://localhost:8000/budget", data)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log("Error occurred! Please fill out all fields. ", error);
+      });
+  };
+
   return (
     <div className="flex flex-row justify-between mt-8">
       <div className="">
-        <h1 className="text-3xl text-green-600 font-semibold"> 583 ₹</h1>
-        <p className="text-sm text-stone-400 mt-1">Monthly Budget</p>
+        <h1 className="text-3xl text-green-600 font-semibold"> {amount}</h1>
+        <p className="text-sm text-stone-400 mt-1">{month} Monthly Budget</p>
       </div>
       <div>
         <select
           className="rounded-lg h-10 w-48 px-4 m-2 cursor-pointer bg-stone-800 text-stone-200 placeholder:text-stone-500"
-          // onChange={(e) => setMonth(e.target.value)}
+          onChange={(e) => setMonth(e.target.value)}
         >
           <option
             value="select"
@@ -95,8 +129,12 @@ const MonthlyBudget = () => {
           type="text"
           placeholder="Update Budget"
           className="rounded-lg h-10 w-56 px-4 m-2 bg-stone-800 text-stone-200 placeholder:text-stone-500"
+          onChange={(e) => setAmount(e.target.value)}
         />
-        <button className="rounded-lg bg-stone-700 px-4 p-1 h-10 text-white">
+        <button
+          className="rounded-lg bg-stone-700 px-4 p-1 h-10 text-white"
+          onClick={handleBudgetSubmit}
+        >
           Update
         </button>
       </div>

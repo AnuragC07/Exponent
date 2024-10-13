@@ -4,7 +4,7 @@ const port = 8000;
 const cors = require("cors");
 const dotenv = require('dotenv');
 const transactionRoutes = require("./routes/transactionRoutes");
-
+const budgetRoutes = require("./routes/monthlybudgetRoutes");
 
 dotenv.config();
 
@@ -13,6 +13,7 @@ const app = express();
 app.use(cors());
 app.use(express.json())
 app.use('/', transactionRoutes);
+app.use('/budget', budgetRoutes);
 app.use(
     cors({
         origin: '*',
