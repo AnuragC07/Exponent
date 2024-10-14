@@ -20,8 +20,29 @@ router.get('/', async (req, res) => {
     }
 });
 
+//
+router.get("/transactions", async (req, res) => {
+    try {
+        const { month, year } = req.query; // Extract month and year from query params
+
+        const transactions = await Transaction.find({
+            $expr: {
+                $and: [
+                    { $eq: [{ $month: "$date" }, parseInt(month)] },
+                    { $eq: [{ $year: "$date" }, parseInt(year)] },
+                ],
+            },
+        });
+
+        res.status(200).json({ data: transactions });
+    } catch (error) {
+        console.error("Error fetching transactions:", error);
+        res.status(500).json({ message: "Failed to fetch transactions" });
+    }
+});
+
 //create a transaction
-router.post('/', async(req, res) => {
+router.post('/', async (req, res) => {
     try {
         if (!req.body.amount || !req.body.type || !req.body.category || !req.body.source) {
             return res.status(400).json({

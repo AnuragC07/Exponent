@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const MonthlyBudget = () => {
+const MonthlyBudget = ({ currentMonth }) => {
   const [fetchedAmount, setFetchedAmount] = useState(0);
   const [amount, setAmount] = useState(0);
   const [month, setMonth] = useState("");
@@ -10,13 +10,33 @@ const MonthlyBudget = () => {
     axios
       .get("http://localhost:8000/budget")
       .then((response) => {
-        setFetchedAmount(response.data);
-        console.log(response.data);
+        console.log(response.data); // Check the structure of the response
+
+        const budgetData = response.data.data; // Access the actual budget array
+        console.log(budgetData);
+
+        if (budgetData.length > 0) {
+          // Extract the current month name from the Day.js object
+          const currentMonthName = currentMonth.format("MMMM"); // 'MMMM' gives the full month name
+
+          // Find the budget for the current month
+          const matchingBudget = budgetData.find(
+            (budget) => budget.month === currentMonthName
+          );
+
+          console.log("Matching budget: ", matchingBudget);
+
+          if (matchingBudget) {
+            setFetchedAmount(matchingBudget.amount); // Store the amount of the matching month
+          } else {
+            setFetchedAmount(0); // Default to 0 if no matching month found
+          }
+        }
       })
       .catch((error) => {
         console.log("Axios Error:", error);
       });
-  }, []);
+  }, [currentMonth]);
 
   const handleBudgetSubmit = () => {
     const data = {
@@ -29,14 +49,17 @@ const MonthlyBudget = () => {
         console.log(res);
       })
       .catch((error) => {
-        console.log("Error occurred! Please fill out all fields. ", error);
+        console.log("Error occurred! Please fill out all fields.", error);
       });
   };
 
   return (
     <div className="flex flex-row justify-between mt-8">
       <div className="">
-        <h1 className="text-3xl text-green-600 font-semibold"> {amount}</h1>
+        <h1 className="text-3xl text-green-600 font-semibold">
+          {" "}
+          {fetchedAmount}
+        </h1>
         <p className="text-sm text-stone-400 mt-1">{month} Monthly Budget</p>
       </div>
       <div>

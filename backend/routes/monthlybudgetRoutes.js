@@ -16,6 +16,26 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get("/budget", async (req, res) => {
+    const { month, year } = req.query;
+
+    try {
+        const budget = await Budget.findOne({
+            $expr: {
+                $and: [
+                    { $eq: [{ $month: "$date" }, parseInt(month)] },
+                    { $eq: [{ $year: "$date" }, parseInt(year)] },
+                ],
+            },
+        });
+
+        res.status(200).json({ amount: budget ? budget.amount : 0 });
+    } catch (error) {
+        console.error("Error fetching budget:", error);
+        res.status(500).json({ message: "Failed to fetch budget" });
+    }
+});
+
 router.post('/', async (req, res) => {
     try {
         if (!req.body.amount || !req.body.month) {

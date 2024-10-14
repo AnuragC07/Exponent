@@ -7,13 +7,11 @@ import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import MonthlyBudget from "../components/MonthlyBudget";
 import TransactionDetail from "../components/TransactionDetail";
+import Analytics from "../components/Analytics";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Analytics from "../components/Analytics";
-
-
-
+import dayjs from "dayjs"; // For date manipulation
 
 const Home = () => {
   const [transactions, setTransactions] = useState([]);
@@ -22,20 +20,24 @@ const Home = () => {
   const [source, setSource] = useState("");
   const [date, setDate] = useState("");
   const [category, setCategory] = useState("");
-  useEffect(() => {
-    // // Retrieve the token from local storage
-    // const token = localStorage.getItem("jwtToken");
-    // // console.log("Token:", token);
-    // // Set the Authorization header in axios request config
-    // const config = {
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //   },
-    // };
 
-    // Send the GET request with the token included in the headers
+  // Track the currently displayed month and year
+  const [currentMonth, setCurrentMonth] = useState(dayjs());
+
+  // Fetch transactions for the current month
+  useEffect(() => {
+    fetchTransactions(currentMonth);
+  }, [currentMonth]);
+
+  const fetchTransactions = (month) => {
+    const selectedMonth = dayjs(month); // Wrap the date input with dayjs
+    const year = selectedMonth.format("YYYY"); // Get the year
+    const monthNumber = selectedMonth.format("M"); // Get the month as a number (1-12)
+
     axios
-      .get("http://localhost:8000/")
+      .get(
+        `http://localhost:8000/transactions?month=${monthNumber}&year=${year}`
+      )
       .then((response) => {
         setTransactions(response.data.data);
         console.log(response.data.data);
@@ -43,29 +45,23 @@ const Home = () => {
       .catch((error) => {
         console.log("Axios Error:", error);
       });
-  }, []);
-
-  const handleType = (e) => {
-    // Convert the input to lowercase and update state
-    setType(e.target.value.toLowerCase());
   };
 
-  const handleListTransaction = () => {
-    const data = {
-      amount,
-      type,
-      source,
-      date,
-      category,
-    };
+  const handleMonthChange = (direction) => {
+    setCurrentMonth((prev) =>
+      direction === "prev" ? prev.subtract(1, "month") : prev.add(1, "month")
+    );
+  };
 
+  const handleType = (e) => setType(e.target.value.toLowerCase());
+
+  const handleListTransaction = () => {
+    const data = { amount, type, source, date, category };
     axios
       .post("http://localhost:8000/", data)
-      .then((res) => {
-        console.log(res);
-      })
+      .then((res) => console.log(res))
       .catch((error) => {
-        console.log("Error occurred! Please fill out all fields. ", error);
+        console.log("Error occurred! Please fill out all fields.", error);
       });
   };
 
@@ -74,101 +70,77 @@ const Home = () => {
       <Navbar />
       <div className="flex h-full bg-stone-900">
         <LeftBar />
-        <main className="w-screen p-2  px-4 rounded-3xl bg-stone-950 pt-4 mt-4 mb-4 shadow-md">
-          {/* <h1 className="text-2xl font-normal text-stone-500">
-            Welcome back, Anurag
-          </h1> */}
-
-          <section className="flex flex-col ">
+        <main className="w-screen p-2 px-4 rounded-3xl bg-stone-950 pt-4 mt-4 mb-4 shadow-md">
+          <section className="flex flex-col">
             <div className="flex flex-col items-center mt-4">
               <div className="flex justify-around w-full">
-                <div className="flex justify-center items-center">
+                <div
+                  className="flex justify-center items-center"
+                  onClick={() => handleMonthChange("prev")}
+                >
                   <ArrowBackIosRoundedIcon className="text-stone-400 border border-stone-800 bg-stone-800 rounded-full p-1 cursor-pointer" />
                 </div>
                 <h1 className="text-stone-300 text-2xl pb-2 font-semibold">
-                  August
+                  {currentMonth.format("MMMM")}
                 </h1>
-                <div className="flex justify-center items-center">
+                <div
+                  className="flex justify-center items-center"
+                  onClick={() => handleMonthChange("next")}
+                >
                   <ArrowForwardIosRoundedIcon className="text-stone-400 border border-stone-800 bg-stone-800 rounded-full p-1 cursor-pointer" />
                 </div>
               </div>
               <Analytics />
               <section>
-                <MonthlyBudget />
-                <section className="mt-10 border border-stone-800 rounded-2xl p-8 w-full shadow-xl ">
-                  <div>
-                    <h1 className="text-xl text-stone-200 mb-8">
-                      Add a new Entry
-                    </h1>
-                    <input
-                      type="text"
-                      placeholder="Enter Amount"
-                      className=" rounded-lg h-10 w-48 px-4 m-2 bg-stone-800 text-stone-200 placeholder:text-stone-500"
-                      onChange={(e) => setAmount(e.target.value)}
-                    />
-                    <input
-                      type="text"
-                      placeholder="Enter Type earning / expense "
-                      className="rounded-lg h-10 w-64 px-4 m-2 bg-stone-800 text-stone-200 placeholder:text-stone-500"
-                      onChange={handleType}
-                    />
-                    <input
-                      type="text"
-                      placeholder="Enter Source ie. Gpay"
-                      className="rounded-lg h-10 w-48 px-4 m-2 bg-stone-800 text-stone-200 placeholder:text-stone-500"
-                      onChange={(e) => setSource(e.target.value)}
-                    />
-                    <input
-                      type="date"
-                      className="rounded-lg h-10 w-48 px-4 m-2 cursor-pointer bg-stone-800 text-stone-200 placeholder:text-stone-500"
-                      placeholder="Add Date"
-                      onChange={(e) => setDate(e.target.value)}
-                    />
-                    <select
-                      className="rounded-lg h-10 w-48 px-4 m-2 cursor-pointer bg-stone-800 text-stone-200 placeholder:text-stone-500"
-                      onChange={(e) => setCategory(e.target.value)}
-                    >
-                      <option
-                        value="Entertainment"
-                        className="cursor-pointer outline-none text-xs font-semibold rounded-xl px-3 py-1 text-stone-500 placeholder:text-stone-400"
-                      >
-                        Select Category
-                      </option>
-                      <option
-                        value="Entertainment"
-                        className="cursor-pointer outline-none text-xs font-semibold rounded-xl px-3 py-1"
-                      >
-                        Entertainment
-                      </option>
-                      <option
-                        value="Bills"
-                        className="cursor-pointer outline-none text-xs font-semibold rounded-xl px-3 py-1"
-                      >
-                        Bills
-                      </option>
-                      <option
-                        value="Groceries"
-                        className="cursor-pointer outline-none text-xs font-semibold rounded-xl px-3 py-1"
-                      >
-                        Groceries
-                      </option>
-                      <option
-                        value="Household"
-                        className="cursor-pointer outline-none text-xs font-semibold rounded-xl px-3 py-1"
-                      >
-                        Household
-                      </option>
-                    </select>
-                  </div>
+                <MonthlyBudget currentMonth={currentMonth} />
+                <section className="mt-10 border border-stone-800 rounded-2xl p-8 w-full shadow-xl">
+                  <h1 className="text-xl text-stone-200 mb-8">
+                    Add a new Entry
+                  </h1>
+                  <input
+                    type="text"
+                    placeholder="Enter Amount"
+                    className="rounded-lg h-10 w-48 px-4 m-2 bg-stone-800 text-stone-200 placeholder:text-stone-500"
+                    onChange={(e) => setAmount(e.target.value)}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Enter Type (earning / expense)"
+                    className="rounded-lg h-10 w-64 px-4 m-2 bg-stone-800 text-stone-200 placeholder:text-stone-500"
+                    onChange={handleType}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Enter Source (e.g., Gpay)"
+                    className="rounded-lg h-10 w-48 px-4 m-2 bg-stone-800 text-stone-200 placeholder:text-stone-500"
+                    onChange={(e) => setSource(e.target.value)}
+                  />
+                  <input
+                    type="date"
+                    className="rounded-lg h-10 w-48 px-4 m-2 cursor-pointer bg-stone-800 text-stone-200 placeholder:text-stone-500"
+                    onChange={(e) => setDate(e.target.value)}
+                  />
+                  <select
+                    className="rounded-lg h-10 w-48 px-4 m-2 cursor-pointer bg-stone-800 text-stone-200"
+                    onChange={(e) => setCategory(e.target.value)}
+                  >
+                    <option value="">Select Category</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Bills">Bills</option>
+                    <option value="Groceries">Groceries</option>
+                    <option value="Household">Household</option>
+                  </select>
                   <button
-                    className="rounded-md bg-stone-900 px-6 ml-2 py-2 p-1 mt-10 text-white"
+                    className="rounded-md bg-stone-900 px-6 ml-2 py-2 mt-10 text-white"
                     onClick={handleListTransaction}
                   >
                     Add Entry
                   </button>
                 </section>
                 <div className="flex justify-center items-center mt-10">
-                  <h1 className="text-xl text-stone-200">Recent Transactions</h1>
+                  <h1 className="text-xl text-stone-200">
+                    Recent Transactions
+                  </h1>
                 </div>
               </section>
               <div className="flex flex-row mt-8">
@@ -179,22 +151,19 @@ const Home = () => {
             </div>
             <div className="flex justify-start items-start gap-2 cursor-pointer">
               <SortRoundedIcon className="text-stone-500" />
-              <h1 className="text-stone-500">sort</h1>
+              <h1 className="text-stone-500">Sort</h1>
             </div>
-            <section className="flex flex-col gap-4 mt-4  p-4">
-              {transactions
-                .slice()
-                .reverse()
-                .map((transaction, index) => (
-                  <TransactionDetail
-                    key={index}
-                    date={transaction.date}
-                    source={transaction.source}
-                    category={transaction.category}
-                    type={transaction.type}
-                    amount={transaction.amount}
-                  />
-                ))}
+            <section className="flex flex-col gap-4 mt-4 p-4">
+              {transactions.map((transaction, index) => (
+                <TransactionDetail
+                  key={index}
+                  date={transaction.date}
+                  source={transaction.source}
+                  category={transaction.category}
+                  type={transaction.type}
+                  amount={transaction.amount}
+                />
+              ))}
             </section>
           </section>
         </main>
