@@ -124,10 +124,10 @@ const Analytics = ({ currentMonth }) => {
       });
   }, [currentMonth]); // Re-run effect when currentMonth changes
 
-  const expenseToEarningsPercentage = (expenses / earnings) * 100;
+  // const expenseToEarningsPercentage = (expenses / earnings) * 100;
 
   return (
-    <section className="h-72 bg-stone-900 rounded-3xl p-4 mt-8 w-full cursor-pointer">
+    <section className="h-80 bg-gradient-to-r from-stone-950 to-stone-900 rounded-3xl border border-stone-900 p-6 mt-10 w-full cursor-pointer shadow-lg">
       <div className="flex justify-around">
         <BarGraph
           data={data}
@@ -138,53 +138,58 @@ const Analytics = ({ currentMonth }) => {
           earningExpenseRatio={earningExpenseRatio}
           currentMonth={currentMonth}
         />
-        <div className="flex flex-col justify-between">
-          <div className="flex gap-8">
-            <section className=" h-24 w-28 rounded-3xl border border-stone-800 bg-stone-900 justify-center items-center flex flex-col shadow-md">
-              <h1 className="text-2xl text-green-600 font-semibold">
+
+        {/* Overview Cards */}
+        <div className="flex flex-col justify-between gap-6">
+          <div className="flex gap-6">
+            <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+              <h1 className="text-3xl text-green-500 font-semibold">
                 {earnings}
               </h1>
-              <p className="text-xs text-stone-400 mt-2">Total Earnings</p>
+              <p className="text-sm text-stone-400 mt-2">Total Earnings</p>
             </section>
-            <section className=" h-24 w-28 rounded-3xl justify-center items-center flex flex-col shadow-md border border-stone-800 bg-stone-900">
-              <h1 className="text-2xl text-red-400 font-semibold">
+
+            <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+              <h1 className="text-3xl text-red-400 font-semibold">
                 {expenses}
               </h1>
-              <p className="text-xs text-stone-400 mt-2">Total Expenses</p>
+              <p className="text-sm text-stone-400 mt-2">Total Expenses</p>
             </section>
-            <section className=" h-24 w-28 rounded-3xl justify-center items-center flex flex-col shadow-md border border-stone-800 bg-stone-900">
-              <h1 className="text-2xl text-green-600 font-semibold">
+
+            <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+              <h1 className="text-3xl text-green-500 font-semibold">
                 {savings}
               </h1>
-              <p className="text-xs text-stone-400 mt-2">Total Savings</p>
+              <p className="text-sm text-stone-400 mt-2">Total Savings</p>
             </section>
           </div>
-          <div className="flex justify-between gap-4">
-            <section className=" h-24 w-42 px-4 rounded-3xl justify-center items-center flex flex-col shadow-md border border-stone-800 bg-stone-900">
-              <h1 className="text-2xl text-stone-400 font-semibold">
+
+          <div className="flex justify-between gap-6">
+            <section className="h-28 w-48 px-4 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+              <h1 className="text-3xl text-stone-300 font-semibold">
                 {earningExpenseRatio.toFixed(2)}
               </h1>
-              <p className="text-xs text-stone-400 mt-2">
+              <p className="text-sm text-stone-400 mt-2">
                 Earning to Expense Ratio
               </p>
             </section>
 
             {isHigher ? (
-              <section className=" h-24 w-fit px-2 rounded-3xl justify-center items-center flex flex-col shadow-md border border-stone-800 bg-stone-900">
-                <h1 className="text-xl text-green-600 font-semibold">
+              <section className="h-28 w-fit px-8 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+                <h1 className="text-2xl text-green-500 font-semibold">
                   {Math.abs(savingsDifference).toFixed(2)}% higher
                 </h1>
-                <p className="text-xs text-stone-400 mt-2">
-                  Your savings percentage is than the ideal rate.
+                <p className="text-sm text-stone-400 mt-2">
+                  savings than the ideal rate.
                 </p>
               </section>
             ) : (
-              <section className=" h-24 w-fit px-2 rounded-3xl justify-center items-center flex flex-col shadow-md border border-stone-800 bg-stone-900">
-                <h1 className="text-xl text-red-400 font-semibold">
+              <section className="h-28 w-fit px-8 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+                <h1 className="text-2xl text-red-400 font-semibold">
                   {Math.abs(savingsDifference).toFixed(2)}% lower
                 </h1>
-                <p className="text-xs text-stone-400 mt-2">
-                  Your savings percentage is than the ideal rate.
+                <p className="text-sm text-stone-400 mt-2">
+                  savings than the ideal rate.
                 </p>
               </section>
             )}

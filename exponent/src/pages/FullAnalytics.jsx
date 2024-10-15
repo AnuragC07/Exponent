@@ -6,6 +6,8 @@ import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import axios from "axios";
 import BarGraph from "../components/BarGraph";
+import Analytics from "../components/Analytics";
+import dayjs from "dayjs";
 
 const FullAnalytics = () => {
   const [earnings, setEarnings] = useState(0);
@@ -18,10 +20,19 @@ const FullAnalytics = () => {
 
   const savingsDifference = savingsPercentage - idealSavingsPercentage;
   const isHigher = savingsPercentage > idealSavingsPercentage;
-
+  const [currentMonth, setCurrentMonth] = useState(dayjs());
   useEffect(() => {
+    fetchTransactions(currentMonth);
+  }, [currentMonth]);
+
+  const fetchTransactions = (month) => {
+    const selectedMonth = dayjs(month); // Wrap the date input with dayjs
+    const year = selectedMonth.format("YYYY"); // Get the year
+    const monthNumber = selectedMonth.format("M"); // Get the month as a number (1-12)
     axios
-      .get("http://localhost:8000/")
+      .get(
+        `http://localhost:8000/transactions?month=${monthNumber}&year=${year}`
+      )
       .then((res) => {
         setData(res.data.data);
         const earnings = res.data.data.filter(
@@ -57,7 +68,7 @@ const FullAnalytics = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  };
 
   const expenseToEarningsPercentage = (expenses / earnings) * 100;
 
@@ -78,7 +89,7 @@ const FullAnalytics = () => {
               <ArrowForwardIosRoundedIcon className="text-stone-400 border border-stone-800 bg-stone-800 rounded-full p-1 cursor-pointer" />
             </div>
           </div>
-          <section className="h-72 bg-stone-900 rounded-3xl p-4 mt-8 w-full cursor-pointer">
+          {/* <section className="h-72 bg-stone-900 rounded-3xl p-4 mt-8 w-full cursor-pointer">
             <div className="flex justify-around">
               <BarGraph
                 data={data}
@@ -131,7 +142,8 @@ const FullAnalytics = () => {
                 </div>
               </div>
             </div>
-          </section>
+          </section> */}
+          <Analytics currentMonth={currentMonth} />
           <div className="flex gap-6 mb-2">
             <div className="h-72 bg-stone-900 rounded-3xl p-4 mt-4 w-full cursor-pointer flex flex-col gap-4">
               <h1 className="text-stone-500 text-xl ml-2">Savings</h1>

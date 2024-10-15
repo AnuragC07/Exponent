@@ -96,50 +96,73 @@ const Home = () => {
               <Analytics currentMonth={currentMonth} />
               <section>
                 <MonthlyBudget currentMonth={currentMonth} />
-                <section className="mt-10 border border-stone-800 rounded-2xl p-8 w-full shadow-xl">
-                  <h1 className="text-xl text-stone-200 mb-8">
-                    Add a new Entry
+                <section className="mt-10 border border-stone-900 rounded-3xl p-8 w-full shadow-2xl bg-gradient-to-r from-stone-950 to-stone-900">
+                  <h1 className="text-2xl text-white mb-6 font-semibold">
+                    Add a New Entry
                   </h1>
-                  <input
-                    type="text"
-                    placeholder="Enter Amount"
-                    className="rounded-lg h-10 w-48 px-4 m-2 bg-stone-800 text-stone-200 placeholder:text-stone-500"
-                    onChange={(e) => setAmount(e.target.value)}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Enter Type (earning / expense)"
-                    className="rounded-lg h-10 w-64 px-4 m-2 bg-stone-800 text-stone-200 placeholder:text-stone-500"
-                    onChange={handleType}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Enter Source (e.g., Gpay)"
-                    className="rounded-lg h-10 w-48 px-4 m-2 bg-stone-800 text-stone-200 placeholder:text-stone-500"
-                    onChange={(e) => setSource(e.target.value)}
-                  />
-                  <input
-                    type="date"
-                    className="rounded-lg h-10 w-48 px-4 m-2 cursor-pointer bg-stone-800 text-stone-200 placeholder:text-stone-500"
-                    onChange={(e) => setDate(e.target.value)}
-                  />
-                  <select
-                    className="rounded-lg h-10 w-48 px-4 m-2 cursor-pointer bg-stone-800 text-stone-200"
-                    onChange={(e) => setCategory(e.target.value)}
-                  >
-                    <option value="">Select Category</option>
-                    <option value="Entertainment">Entertainment</option>
-                    <option value="Bills">Bills</option>
-                    <option value="Groceries">Groceries</option>
-                    <option value="Household">Household</option>
-                  </select>
+
+                  <div className="flex flex-wrap gap-4">
+                    {/* Amount Input: Only Numbers */}
+                    <input
+                      type="number"
+                      placeholder="Enter Amount"
+                      className="flex-1 min-w-[200px] rounded-md h-12 px-4 bg-stone-800 text-white placeholder:text-stone-500 focus:outline-none focus:ring-2 focus:ring-green-900"
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (/^\d*$/.test(value)) setAmount(value); // Allow only digits
+                      }}
+                    />
+
+                    {/* Type Input: Accepts only Strings */}
+                    <input
+                      type="text"
+                      placeholder="Enter Type (earning / expense)"
+                      className="flex-1 min-w-[250px] rounded-md h-12 px-4 bg-stone-800 text-white placeholder:text-stone-500 focus:outline-none focus:ring-2 focus:ring-green-900"
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (/^[a-zA-Z\s]*$/.test(value)) handleType(value); // Allow only letters and spaces
+                      }}
+                    />
+
+                    {/* Source Input: Accepts only Strings */}
+                    <input
+                      type="text"
+                      placeholder="Enter Source (e.g., Gpay)"
+                      className="flex-1 min-w-[200px] rounded-md h-12 px-4 bg-stone-800 text-white placeholder:text-stone-500 focus:outline-none focus:ring-2 focus:ring-green-900"
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (/^[a-zA-Z\s]*$/.test(value)) setSource(value); // Allow only letters and spaces
+                      }}
+                    />
+
+                    {/* Date Input */}
+                    <input
+                      type="date"
+                      className="flex-1 min-w-[200px] rounded-md h-12 px-4 cursor-pointer bg-stone-800 text-white placeholder:text-stone-500 focus:outline-none focus:ring-2 focus:ring-green-900"
+                      onChange={(e) => setDate(e.target.value)}
+                    />
+
+                    {/* Category Input */}
+                    <select
+                      className="flex-1 min-w-[200px] rounded-md h-12 px-4 bg-stone-800 text-white cursor-pointer focus:outline-none focus:ring-2 focus:ring-green-900"
+                      onChange={(e) => setCategory(e.target.value)}
+                    >
+                      <option value="">Select Category</option>
+                      <option value="Entertainment">Entertainment</option>
+                      <option value="Bills">Bills</option>
+                      <option value="Groceries">Groceries</option>
+                      <option value="Household">Household</option>
+                    </select>
+                  </div>
+
                   <button
-                    className="rounded-md bg-stone-900 px-6 ml-2 py-2 mt-10 text-white"
+                    className="mt-8 w-full md:w-fit rounded-md bg-gradient-to-r from-stone-900 to-stone-800 transition-colors px-12 py-3 text-white font-semibold shadow-lg"
                     onClick={handleListTransaction}
                   >
                     Add Entry
                   </button>
                 </section>
+
                 <div className="flex justify-center items-center mt-10">
                   <h1 className="text-xl text-stone-200">
                     Recent Transactions
