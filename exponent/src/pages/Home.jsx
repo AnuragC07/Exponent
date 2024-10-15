@@ -39,8 +39,11 @@ const Home = () => {
         `http://localhost:8000/transactions?month=${monthNumber}&year=${year}`
       )
       .then((response) => {
-        setTransactions(response.data.data);
-        console.log(response.data.data);
+        const sortedTransactions = response.data.data.sort(
+          (a, b) => dayjs(a.date).valueOf() - dayjs(b.date).valueOf()
+        );
+        setTransactions(sortedTransactions);
+        // console.log(response.data.data);
       })
       .catch((error) => {
         console.log("Axios Error:", error);
@@ -90,7 +93,7 @@ const Home = () => {
                   <ArrowForwardIosRoundedIcon className="text-stone-400 border border-stone-800 bg-stone-800 rounded-full p-1 cursor-pointer" />
                 </div>
               </div>
-              <Analytics />
+              <Analytics currentMonth={currentMonth} />
               <section>
                 <MonthlyBudget currentMonth={currentMonth} />
                 <section className="mt-10 border border-stone-800 rounded-2xl p-8 w-full shadow-xl">

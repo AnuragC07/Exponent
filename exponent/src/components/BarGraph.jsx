@@ -9,6 +9,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import dayjs from "dayjs";
 
 ChartJS.register(
   CategoryScale,
@@ -19,27 +20,33 @@ ChartJS.register(
   Legend
 );
 
-const BarGraph = ({ data }) => {
-  // Prepare the data for the chart
-  const earnings = data.filter(
-    (item) => item.type === "earning" || item.type === "Earning"
-  );
-  const expenses = data.filter(
-    (item) => item.type === "expense" || item.type === "Expense"
+const BarGraph = ({ data, currentMonth }) => {
+  // Filter data accurately for the current month
+  const filteredData = data.filter((item) =>
+    dayjs(item.date).isSame(currentMonth, "month")
   );
 
-  // Extract labels (categories or descriptions) and amounts
-  const labels = data.map((item) => {
-    const date = new Date(item.date); // Convert the string to a Date object
+  // Ensure dates are correctly parsed and sorted in ascending order
+  const sortedData = filteredData.sort(
+    (a, b) => dayjs(a.date).valueOf() - dayjs(b.date).valueOf()
+  );
 
-    // Format the date to "16 Sep" using Intl.DateTimeFormat
-    return new Intl.DateTimeFormat("en-GB", {
-      day: "numeric",
-      month: "short",
-    }).format(date);
-  });
-  const earningsAmounts = earnings.map((item) => item.amount);
-  const expensesAmounts = expenses.map((item) => item.amount);
+  // Split sorted data into earnings and expenses
+  const earnings = sortedData.filter(
+    (item) => item.type.toLowerCase() === "earning"
+  );
+  const expenses = sortedData.filter(
+    (item) => item.type.toLowerCase() === "expense"
+  );
+
+  // Extract labels and amounts correctly
+  const labels = sortedData.map((item) => dayjs(item.date).format("DD MMM"));
+  const earningsAmounts = sortedData.map((item) =>
+    item.type.toLowerCase() === "earning" ? item.amount : 0
+  );
+  const expensesAmounts = sortedData.map((item) =>
+    item.type.toLowerCase() === "expense" ? item.amount : 0
+  );
 
   const chartData = {
     labels: labels,
@@ -71,13 +78,13 @@ const BarGraph = ({ data }) => {
         display: true,
         text: "Earnings and Expenses Overview",
         color: "grey",
-        font: "light"
+        font: "light",
       },
     },
   };
 
   return (
-    <div className=" w-1/2 h-1/2">
+    <div className="w-1/2 h-1/2">
       <Bar data={chartData} options={options} />
     </div>
   );
