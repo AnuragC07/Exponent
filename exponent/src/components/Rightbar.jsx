@@ -1,4 +1,53 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+
 const Rightbar = () => {
+  const [data, setData] = useState(0);
+  const [earning, setEarning] = useState(0);
+  const [latestEarning, setLatestEarning] = useState(null);
+  const [latestEarningCategory, setLatestEarningCategory] = useState(null);
+  const [latestExpense, setLatestExpense] = useState(null);
+  const [latestExpenseCategory, setLatestExpenseCategory] = useState(null); // State for latest expense amount
+
+  useEffect(() => {
+    axios.get("http://localhost:8000/").then((res) => {
+      const allData = res.data.data;
+      setData(allData);
+
+      // Filter earnings (case-insensitive)
+      const earnings = allData.filter(
+        (item) => item.type.toLowerCase() === "earning"
+      );
+
+      // Filter expenses (case-insensitive)
+      const expenses = allData.filter(
+        (item) => item.type.toLowerCase() === "expense"
+      );
+
+      // Find the latest earning, if available
+      if (earnings.length > 0) {
+        const latestEarningEntry = earnings.sort(
+          (a, b) => new Date(b.date) - new Date(a.date)
+        )[0];
+        setLatestEarning(latestEarningEntry.amount);
+        setLatestEarningCategory(latestEarningEntry.source);
+      }
+
+      // Find the latest expense, if available
+      if (expenses.length > 0) {
+        const latestExpenseEntry = expenses.sort(
+          (a, b) => new Date(b.date) - new Date(a.date)
+        )[0];
+        setLatestExpense(latestExpenseEntry.amount);
+        setLatestExpenseCategory(latestExpenseEntry.source);
+      }
+
+      // console.log("Earnings:", earnings);
+      // console.log("Expenses:", expenses);
+      // console.log("All Data:", allData);
+    });
+  }, []);
+
   return (
     <div>
       <div className="flex flex-col gap-4 w-72 h-96 p-4">
@@ -14,13 +63,17 @@ const Rightbar = () => {
         </section>
         <section className="border border-stone-700 w-full rounded-3xl p-4 px-8 mt-4">
           <h1 className="text-lg text-stone-300">Recent Inflow</h1>
-          <h1 className="text-green-500 text-2xl font-semibold">213 ₹</h1>
-          <p className="text-xs text-stone-400">from gpay</p>
+          <h1 className="text-green-500 text-2xl font-semibold">
+            {latestEarning} ₹
+          </h1>
+          <p className="text-xs text-stone-400">from {latestEarningCategory}</p>
         </section>
         <section className="border border-stone-700 w-full rounded-3xl p-4 px-8 ">
           <h1 className="text-lg text-stone-300">Recent Outflow</h1>
-          <h1 className="text-red-400 text-2xl font-semibold">53 ₹</h1>
-          <p className="text-xs text-stone-400">from gpay</p>
+          <h1 className="text-red-400 text-2xl font-semibold">
+            {latestExpense} ₹
+          </h1>
+          <p className="text-xs text-stone-400">from {latestExpenseCategory}</p>
         </section>
       </div>
     </div>

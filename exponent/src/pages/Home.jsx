@@ -62,7 +62,7 @@ const Home = () => {
     const data = { amount, type, source, date, category };
     axios
       .post("http://localhost:8000/", data)
-      .then((res) => console.log(res))
+      .then((res) => console.log("Amount listing success", res))
       .catch((error) => {
         console.log("Error occurred! Please fill out all fields.", error);
       });
@@ -118,10 +118,7 @@ const Home = () => {
                       type="text"
                       placeholder="Enter Type (earning / expense)"
                       className="flex-1 min-w-[250px] rounded-md h-12 px-4 bg-stone-800 text-white placeholder:text-stone-500 focus:outline-none focus:ring-2 focus:ring-green-900"
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        if (/^[a-zA-Z\s]*$/.test(value)) handleType(value); // Allow only letters and spaces
-                      }}
+                      onChange={handleType}
                     />
 
                     {/* Source Input: Accepts only Strings */}
