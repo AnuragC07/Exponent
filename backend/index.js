@@ -5,6 +5,7 @@ const cors = require("cors");
 const dotenv = require('dotenv');
 const transactionRoutes = require("./routes/transactionRoutes");
 const budgetRoutes = require("./routes/monthlybudgetRoutes");
+const totalAmountRoutes = require("./routes/totalAmountRoutes");
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ app.use(cors());
 app.use(express.json())
 app.use('/', transactionRoutes);
 app.use('/budget', budgetRoutes);
+app.use('/api/total', totalAmountRoutes);
 app.use(
     cors({
         origin: '*',

@@ -1,6 +1,32 @@
 import React from "react";
 import logo from "../assets/alllightlogo.svg";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 const Enterdata = () => {
+  const [amount, setAmount] = useState(0);
+
+  const handleAmount = async (e) => {
+    e.preventDefault();
+
+    // Convert amount to number and validate
+    const numAmount = parseFloat(amount);
+
+    if (isNaN(numAmount)) {
+      console.error("Invalid amount");
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://localhost:8000/api/total", {
+        amount: numAmount, // Send the converted number
+      });
+      console.log("Amount listing success:", response.data);
+    } catch (error) {
+      console.error("Error:", error.response?.data?.message || error.message);
+    }
+  };
+
   return (
     <div className="fixed inset-0 bg-stone-950  flex flex-col gap-8 items-center justify-center z-50">
       <img src={logo} alt="" />
@@ -18,10 +44,10 @@ const Enterdata = () => {
               id="curbalance"
               placeholder="Enter Current Balance Amount"
               className="rounded-lg h-10 w-full px-4 m-2 bg-stone-800 text-stone-200 placeholder:text-stone-500"
-              //   onChange={(e) => setSource(e.target.value)}
+              onChange={(e) => setAmount(e.target.value)}
             />
           </div>
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <label
               className="block text-stone-600 text-sm font-semibold mb-2 ml-4"
               htmlFor="curbudget"
@@ -122,8 +148,8 @@ const Enterdata = () => {
                 </option>
               </select>
             </div>
-          </div>
-          <div className="mb-4">
+          </div> */}
+          {/* <div className="mb-4">
             <label
               className="block text-stone-600 text-sm font-semibold mb-2 ml-4"
               htmlFor="currency"
@@ -137,11 +163,12 @@ const Enterdata = () => {
               className="rounded-lg h-10 w-full px-4 m-2 bg-stone-800 text-stone-200 placeholder:text-stone-500"
               //   onChange={(e) => setSource(e.target.value)}
             />
-          </div>
+          </div> */}
           <div className="flex justify-end">
             <button
               type="button"
               className="px-4 py-2 bg-green-800 text-white rounded-md hover:bg-green-900 focus:outline-none"
+              onClick={handleAmount}
             >
               Continue
             </button>

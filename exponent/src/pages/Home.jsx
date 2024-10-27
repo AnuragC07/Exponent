@@ -58,14 +58,71 @@ const Home = () => {
 
   const handleType = (e) => setType(e.target.value.toLowerCase());
 
-  const handleListTransaction = () => {
-    const data = { amount, type, source, date, category };
-    axios
-      .post("http://localhost:8000/", data)
-      .then((res) => console.log("Amount listing success", res))
-      .catch((error) => {
-        console.log("Error occurred! Please fill out all fields.", error);
-      });
+  const updateTotalAmount = async (type, amount) => {
+    try {
+      await axios.put("http://localhost:8000/total/update", { type, amount });
+      console.log("Total amount updated successfully");
+    } catch (error) {
+      console.error("Failed to update total amount:", error.message);
+    }
+  };
+
+  // const handleListTransaction = () => {
+  //   const data = { amount, type, source, date, category };
+  //   axios
+  //     .post("http://localhost:8000/", data)
+  //     .then((res) => console.log("Amount listing success", res))
+  //     .catch((error) => {
+  //       console.log("Error occurred! Please fill out all fields.", error);
+  //     });
+  //   updateTotalAmount(type, amount);
+  // };
+  const handleListTransaction = async () => {
+    const numAmount = parseFloat(amount);
+
+    if (isNaN(numAmount)) {
+      console.error("Invalid amount");
+      return;
+    }
+
+    try {
+      // First create the transaction
+      const transactionData = {
+        amount: numAmount,
+        type,
+        source,
+        date,
+        category,
+      };
+
+      await axios.post("http://localhost:8000/", transactionData);
+      console.log("Transaction created successfully");
+
+      // Then update the total amount
+      const updateResponse = await axios.put(
+        "http://localhost:8000/api/total/update",
+        {
+          type,
+          amount: numAmount,
+        }
+      );
+      console.log("Total amount updated:", updateResponse.data);
+
+      // Clear form and refresh transactions
+      clearForm();
+      fetchTransactions(currentMonth);
+    } catch (error) {
+      console.error("Error:", error.response?.data?.message || error.message);
+    }
+  };
+
+  // Helper function to clear form
+  const clearForm = () => {
+    setAmount(0);
+    setType("");
+    setSource("");
+    setDate("");
+    setCategory("");
   };
 
   return (
