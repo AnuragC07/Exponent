@@ -1,28 +1,38 @@
 import LeftBar from "../components/LeftBar";
 import Navbar from "../components/Navbar";
-
+import { Link, useNavigate } from "react-router-dom";
 const Settings = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("jwtToken");
+    navigate("/login"); // Redirect to the login page or any other page
+  };
+
   return (
     <div>
       <Navbar />
-      <div className="flex">
+      <div className="flex h-full bg-stone-900">
         <LeftBar />
-        <section className="mt-10 p-8 w-2/4 h-72 border border-stone-200 rounded-2xl">
+        <section className="mt-2 p-8 w-2/3 h-72 bg-stone-950 rounded-2xl">
           <div>
-            <h1 className="text-2xl text-stone-600 mb-8">Settings</h1>
+            <h1 className="text-2xl text-stone-200 mb-8">Settings</h1>
             <div className="flex gap-4">
               <input
                 type="text"
                 placeholder="Edit Currency ie. $"
-                className="border rounded-lg h-10 w-48 px-4"
+                className="w-48 rounded-md h-12 px-4 bg-stone-800 text-white placeholder:text-stone-500"
               />
-              <button className="border rounded-lg bg-stone-600 px-4 p-1 h-10 text-white">
-                Update Currency
+              <button className="rounded-lg px-4 p-1 h-12 bg-stone-900 text-white">
+                Update Currency Type
               </button>
             </div>
-            <button className="border rounded-lg px-4 p-1 h-10 mt-20 text-stone-400">
-                Logout
-              </button>
+            <button
+              className="rounded-lg px-4 p-1 h-10 mt-20 text-stone-400 bg-stone-800 hover:bg-stone-700"
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
           </div>
         </section>
       </div>

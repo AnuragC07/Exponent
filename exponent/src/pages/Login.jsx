@@ -51,7 +51,7 @@ const Login = () => {
         localStorage.setItem("jwtToken", response.data.token);
         // Redirect to home page upon successful login
         console.log("Login Successfull!");
-        navigate("/");
+        navigate("/home");
       } else {
         console.log(response.data.error); // Display error message if login fails
       }
