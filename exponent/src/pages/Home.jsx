@@ -58,14 +58,14 @@ const Home = () => {
 
   const handleType = (e) => setType(e.target.value.toLowerCase());
 
-  const updateTotalAmount = async (type, amount) => {
-    try {
-      await axios.put("http://localhost:8000/total/update", { type, amount });
-      console.log("Total amount updated successfully");
-    } catch (error) {
-      console.error("Failed to update total amount:", error.message);
-    }
-  };
+  // const updateTotalAmount = async (type, amount) => {
+  //   try {
+  //     await axios.put("http://localhost:8000/total/update", { type, amount });
+  //     console.log("Total amount updated successfully");
+  //   } catch (error) {
+  //     console.error("Failed to update total amount:", error.message);
+  //   }
+  // };
 
   // const handleListTransaction = () => {
   //   const data = { amount, type, source, date, category };
@@ -86,7 +86,6 @@ const Home = () => {
     }
 
     try {
-      // First create the transaction
       const transactionData = {
         amount: numAmount,
         type,
@@ -95,7 +94,15 @@ const Home = () => {
         category,
       };
 
-      await axios.post("http://localhost:8000/", transactionData);
+      // Get the token from localStorage
+      const token = localStorage.getItem("jwtToken");
+
+      // Add the authorization header to your request
+      await axios.post("http://localhost:8000/", transactionData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       console.log("Transaction created successfully");
 
       // Then update the total amount
@@ -104,6 +111,11 @@ const Home = () => {
         {
           type,
           amount: numAmount,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       console.log("Total amount updated:", updateResponse.data);
