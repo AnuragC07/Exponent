@@ -12,19 +12,22 @@ const MonthlyBudget = ({ currentMonth }) => {
   const [withinBudget, setWithinBudget] = useState(0);
   const [overBudget, setOverBudget] = useState(0);
   useEffect(() => {
+    const token = localStorage.getItem("jwtToken");
     axios
-      .get("http://localhost:8000/budget")
+      .get("http://localhost:8000/budget", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
-        console.log(response.data); // Check the structure of the response
+        console.log(response.data);
 
-        const budgetData = response.data.data; // Access the actual budget array
+        const budgetData = response.data.data;
         console.log(budgetData);
 
         if (budgetData.length > 0) {
-          // Extract the current month name from the Day.js object
-          const currentMonthName = currentMonth.format("MMMM"); // 'MMMM' gives the full month name
+          const currentMonthName = currentMonth.format("MMMM");
 
-          // Find the budget for the current month
           const matchingBudget = budgetData.find(
             (budget) => budget.month === currentMonthName
           );
@@ -32,9 +35,9 @@ const MonthlyBudget = ({ currentMonth }) => {
           console.log("Matching budget: ", matchingBudget);
 
           if (matchingBudget) {
-            setFetchedAmount(matchingBudget.amount); // Store the amount of the matching month
+            setFetchedAmount(matchingBudget.amount);
           } else {
-            setFetchedAmount(0); // Default to 0 if no matching month found
+            setFetchedAmount(0);
           }
         }
       })
@@ -44,8 +47,13 @@ const MonthlyBudget = ({ currentMonth }) => {
   }, [currentMonth]);
 
   useEffect(() => {
+    const token = localStorage.getItem("jwtToken");
     axios
-      .get("http://localhost:8000/")
+      .get("http://localhost:8000/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         const allData = res.data.data;
         setData(allData);
@@ -72,7 +80,7 @@ const MonthlyBudget = ({ currentMonth }) => {
           const overBudgetAmount = totalExpenses - fetchedAmount;
           setIsOverBudget((overBudgetAmount / fetchedAmount) * 100);
         } else {
-          setIsOverBudget(0); // Default to 0 if no budget amount
+          setIsOverBudget(0);
         }
         if (fetchedAmount > totalExpenses) {
           setWithinBudget(fetchedAmount - totalExpenses);

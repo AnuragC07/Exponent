@@ -8,9 +8,10 @@ const { jwtAuth, extractUsernameFromToken } = require("../jwt");
 //apis
 
 //show all transactions
-router.get('/', async (req, res) => {
+//this is not generally needed because it fetches all records in the db
+router.get('/', jwtAuth, extractUsernameFromToken, async (req, res) => {
     try {
-        const transactions = await Transaction.find({});
+        const transactions = await Transaction.find({ account: req.username });
         res.status(200).json({
             data: transactions,
         });
@@ -20,8 +21,8 @@ router.get('/', async (req, res) => {
     }
 });
 
-//
-router.get("/transactions", async (req, res) => {
+//normal get request to fetch data for current logged in user account
+router.get("/transactions", jwtAuth, extractUsernameFromToken, async (req, res) => {
     try {
         const { month, year } = req.query; // Extract month and year from query params
 
@@ -29,9 +30,10 @@ router.get("/transactions", async (req, res) => {
             $expr: {
                 $and: [
                     { $eq: [{ $month: "$date" }, parseInt(month)] },
-                    { $eq: [{ $year: "$date" }, parseInt(year)] },
-                ],
+                    { $eq: [{ $year: "$date" }, parseInt(year)] }
+                ]
             },
+            account: req.username
         });
 
         res.status(200).json({ data: transactions });

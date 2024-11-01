@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const cors = require("cors");
 const Budget = require("../models/budgetModel");
-
+const { jwtAuth, extractUsernameFromToken } = require("../jwt");
 
 router.get('/', async (req, res) => {
     try {
@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get("/budget", async (req, res) => {
+router.get("/budget", jwtAuth, extractUsernameFromToken, async (req, res) => {
     const { month, year } = req.query;
 
     try {

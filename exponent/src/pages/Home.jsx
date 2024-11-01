@@ -33,10 +33,15 @@ const Home = () => {
     const selectedMonth = dayjs(month); // Wrap the date input with dayjs
     const year = selectedMonth.format("YYYY"); // Get the year
     const monthNumber = selectedMonth.format("M"); // Get the month as a number (1-12)
-
+    const token = localStorage.getItem("jwtToken");
     axios
       .get(
-        `http://localhost:8000/transactions?month=${monthNumber}&year=${year}`
+        `http://localhost:8000/transactions?month=${monthNumber}&year=${year}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Add token to request headers
+          },
+        }
       )
       .then((response) => {
         const sortedTransactions = response.data.data.sort(

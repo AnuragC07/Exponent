@@ -7,13 +7,18 @@ const CurBalance = () => {
   useEffect(() => {
     const fetchBalance = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/api/total");
-        console.log(res); // Debugging: log the entire response
-        console.log(res.data); // Debugging: log the data part
+        const token = localStorage.getItem("jwtToken");
+        const res = await axios.get("http://localhost:8000/api/total", {
+          headers: {
+            Authorization: `Bearer ${token}`, // Add token to request headers
+          },
+        });
+        console.log(res.data);
 
-        // Access and set the amount from the response
-        const firstEntryAmount = res.data.data[0].amount;
-        setAmount(firstEntryAmount);
+        if (res.data.data && res.data.data.length > 0) {
+          const firstEntryAmount = res.data.data[0].amount;
+          setAmount(firstEntryAmount);
+        }
       } catch (error) {
         console.error("Error:", error.response?.data?.message || error.message);
       }

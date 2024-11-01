@@ -15,63 +15,68 @@ const Analytics = ({ currentMonth }) => {
   const savingsDifference = savingsPercentage - idealSavingsPercentage;
   const isHigher = savingsPercentage > idealSavingsPercentage;
 
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:8000/")
+  //     .then((res) => {
+  //       const allData = res.data.data;
+  //       setData(allData);
+
+  //       // Filter data based on the current month
+  //       const filteredData = allData.filter((item) =>
+  //         dayjs(item.date).isSame(currentMonth, "month")
+  //       );
+
+  //       // Calculate earnings and expenses for the filtered month
+  //       const earnings = filteredData.filter(
+  //         (item) => item.type.toLowerCase() === "earning"
+  //       );
+  //       const totalEarnings = earnings.reduce(
+  //         (sum, item) => sum + item.amount,
+  //         0
+  //       );
+  //       setEarnings(totalEarnings);
+
+  //       const expenses = filteredData.filter(
+  //         (item) => item.type.toLowerCase() === "expense"
+  //       );
+  //       const totalExpenses = expenses.reduce(
+  //         (sum, item) => sum + item.amount,
+  //         0
+  //       );
+  //       setExpenses(totalExpenses);
+
+  //       const calculatedSavings = totalEarnings - totalExpenses;
+  //       setSavings(Math.max(calculatedSavings, 0)); // Ensure savings never go below 0
+
+  //       // Handle savings percentage logic
+  //       if (totalEarnings === 0 && totalExpenses === 0) {
+  //         setSavingsPercentage(0); // No data, set savingsPercentage to 0%
+  //       } else {
+  //         const savingsPercent = (calculatedSavings / totalEarnings) * 100;
+  //         setSavingsPercentage(Math.max(savingsPercent, 0)); // Avoid negative percentage
+  //       }
+
+  //       // Handle earning to expense ratio
+  //       if (totalExpenses === 0) {
+  //         setEarningExpenseRatio(totalEarnings > 0 ? Infinity : 0); // Avoid divide-by-zero issues
+  //       } else {
+  //         const ratio = totalEarnings / totalExpenses;
+  //         setEarningExpenseRatio(ratio);
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, [currentMonth]);
   useEffect(() => {
+    const token = localStorage.getItem("jwtToken");
     axios
-      .get("http://localhost:8000/")
-      .then((res) => {
-        const allData = res.data.data;
-        setData(allData);
-
-        // Filter data based on the current month
-        const filteredData = allData.filter((item) =>
-          dayjs(item.date).isSame(currentMonth, "month")
-        );
-
-        // Calculate earnings and expenses for the filtered month
-        const earnings = filteredData.filter(
-          (item) => item.type.toLowerCase() === "earning"
-        );
-        const totalEarnings = earnings.reduce(
-          (sum, item) => sum + item.amount,
-          0
-        );
-        setEarnings(totalEarnings);
-
-        const expenses = filteredData.filter(
-          (item) => item.type.toLowerCase() === "expense"
-        );
-        const totalExpenses = expenses.reduce(
-          (sum, item) => sum + item.amount,
-          0
-        );
-        setExpenses(totalExpenses);
-
-        const calculatedSavings = totalEarnings - totalExpenses;
-        setSavings(Math.max(calculatedSavings, 0)); // Ensure savings never go below 0
-
-        // Handle savings percentage logic
-        if (totalEarnings === 0 && totalExpenses === 0) {
-          setSavingsPercentage(0); // No data, set savingsPercentage to 0%
-        } else {
-          const savingsPercent = (calculatedSavings / totalEarnings) * 100;
-          setSavingsPercentage(Math.max(savingsPercent, 0)); // Avoid negative percentage
-        }
-
-        // Handle earning to expense ratio
-        if (totalExpenses === 0) {
-          setEarningExpenseRatio(totalEarnings > 0 ? Infinity : 0); // Avoid divide-by-zero issues
-        } else {
-          const ratio = totalEarnings / totalExpenses;
-          setEarningExpenseRatio(ratio);
-        }
+      .get("http://localhost:8000/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [currentMonth]);
-  useEffect(() => {
-    axios
-      .get("http://localhost:8000/")
       .then((res) => {
         const allData = res.data.data;
         setData(allData);
@@ -81,6 +86,7 @@ const Analytics = ({ currentMonth }) => {
           dayjs(item.date).isSame(currentMonth, "month")
         );
         console.log(filteredData);
+
         // Calculate earnings and expenses for the filtered month
         const earnings = filteredData.filter(
           (item) => item.type.toLowerCase() === "earning"

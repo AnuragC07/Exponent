@@ -10,42 +10,48 @@ const Rightbar = () => {
   const [latestExpenseCategory, setLatestExpenseCategory] = useState(null); // State for latest expense amount
 
   useEffect(() => {
-    axios.get("http://localhost:8000/").then((res) => {
-      const allData = res.data.data;
-      setData(allData);
+    const token = localStorage.getItem("jwtToken");
+    axios
+      .get("http://localhost:8000/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        const allData = res.data.data;
+        setData(allData);
 
-      // Filter earnings (case-insensitive)
-      const earnings = allData.filter(
-        (item) => item.type.toLowerCase() === "earning"
-      );
+        // Filter earnings (case-insensitive)
+        const earnings = allData.filter(
+          (item) => item.type.toLowerCase() === "earning"
+        );
 
-      // Filter expenses (case-insensitive)
-      const expenses = allData.filter(
-        (item) => item.type.toLowerCase() === "expense"
-      );
+        // Filter expenses (case-insensitive)
+        const expenses = allData.filter(
+          (item) => item.type.toLowerCase() === "expense"
+        );
 
-      // Find the latest earning, if available
-      if (earnings.length > 0) {
-        const latestEarningEntry = earnings.sort(
-          (a, b) => new Date(b.date) - new Date(a.date)
-        )[0];
-        setLatestEarning(latestEarningEntry.amount);
-        setLatestEarningCategory(latestEarningEntry.source);
-      }
+        // Find the latest earning, if available
+        if (earnings.length > 0) {
+          const latestEarningEntry = earnings.sort(
+            (a, b) => new Date(b.date) - new Date(a.date)
+          )[0];
+          setLatestEarning(latestEarningEntry.amount);
+          setLatestEarningCategory(latestEarningEntry.source);
+        }
 
-      // Find the latest expense, if available
-      if (expenses.length > 0) {
-        const latestExpenseEntry = expenses.sort(
-          (a, b) => new Date(b.date) - new Date(a.date)
-        )[0];
-        setLatestExpense(latestExpenseEntry.amount);
-        setLatestExpenseCategory(latestExpenseEntry.source);
-      }
-
-      // console.log("Earnings:", earnings);
-      // console.log("Expenses:", expenses);
-      // console.log("All Data:", allData);
-    });
+        // Find the latest expense, if available
+        if (expenses.length > 0) {
+          const latestExpenseEntry = expenses.sort(
+            (a, b) => new Date(b.date) - new Date(a.date)
+          )[0];
+          setLatestExpense(latestExpenseEntry.amount);
+          setLatestExpenseCategory(latestExpenseEntry.source);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (
