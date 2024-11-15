@@ -14,7 +14,7 @@ const Settings = () => {
       <Navbar />
       <div className="flex h-full bg-stone-900">
         <LeftBar />
-        <section className="mt-2 p-8 w-2/3 h-72 bg-stone-950 rounded-2xl">
+        <section className="mt-4 p-8 w-2/3 h-72 bg-stone-950 rounded-2xl">
           <div>
             <h1 className="text-2xl text-stone-200 mb-8">Settings</h1>
             <div className="flex gap-4">

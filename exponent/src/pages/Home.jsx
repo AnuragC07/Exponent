@@ -168,7 +168,7 @@ const Home = () => {
                 </div>
               </div>
               <Analytics currentMonth={currentMonth} />
-              <section>
+              <section className="border-b-2 border-b-stone-900 pb-7">
                 <MonthlyBudget currentMonth={currentMonth} />
                 <section className="mt-10 border border-stone-900 rounded-3xl p-8 w-full shadow-2xl bg-gradient-to-r from-stone-950 to-stone-900">
                   <h1 className="text-2xl text-white mb-6 font-semibold">
