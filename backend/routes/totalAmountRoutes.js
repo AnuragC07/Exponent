@@ -75,7 +75,7 @@ router.put('/update', jwtAuth,
             }
 
             // Find the most recent total amount document
-            const totalAmountDoc = await totalAmount.findOne().sort({ createdAt: -1 });
+            const totalAmountDoc = await totalAmount.findOne({ account: req.username });
 
             if (!totalAmountDoc) {
                 return res.status(404).json({

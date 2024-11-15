@@ -13,38 +13,27 @@ const MonthlyBudget = ({ currentMonth }) => {
   const [overBudget, setOverBudget] = useState(0);
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
+
     axios
       .get("http://localhost:8000/budget", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        params: {
+          month: currentMonth.format("MMMM"), // Send the month name (e.g., "November")
+        },
       })
       .then((response) => {
-        console.log(response.data);
+        console.log("Fetched data:", response.data);
 
-        const budgetData = response.data.data;
-        console.log(budgetData);
-
-        if (budgetData.length > 0) {
-          const currentMonthName = currentMonth.format("MMMM");
-
-          const matchingBudget = budgetData.find(
-            (budget) => budget.month === currentMonthName
-          );
-
-          console.log("Matching budget: ", matchingBudget);
-
-          if (matchingBudget) {
-            setFetchedAmount(matchingBudget.amount);
-          } else {
-            setFetchedAmount(0);
-          }
-        }
+        // Check if the response contains an amount and update the state accordingly
+        const amount = response.data.amount ?? 0; // Default to 0 if no amount is found
+        setFetchedAmount(amount);
       })
       .catch((error) => {
         console.log("Axios Error:", error);
       });
-  }, [currentMonth]);
+  }, [currentMonth]); // Run the effect whenever `currentMonth` changes
 
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
@@ -96,15 +85,21 @@ const MonthlyBudget = ({ currentMonth }) => {
   }, [currentMonth, fetchedAmount]); // Added fetchedAmount to the dependency array
 
   const handleBudgetSubmit = () => {
+    const token = localStorage.getItem("jwtToken");
     const data = {
       amount: Number(amount), // Convert amount to number
       month,
     };
+    console.log("Data to submit:", data); // Debug log
+
     axios
-      .post("http://localhost:8000/budget", data)
+      .post("http://localhost:8000/budget", data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         console.log(res);
-        // Optional: Update fetched amount after submitting the new budget
       })
       .catch((error) => {
         console.log("Error occurred! Please fill out all fields.", error);

@@ -17,7 +17,7 @@ const app = express();
 app.use(cors());
 app.use(express.json())
 app.use('/', transactionRoutes);
-app.use('/budget', budgetRoutes);
+app.use('/', budgetRoutes);  //setting this to /budget route creates problems for some apis on monthlybudget
 app.use('/api/total', totalAmountRoutes);
 app.use('/', userRoutes);
 app.use(
