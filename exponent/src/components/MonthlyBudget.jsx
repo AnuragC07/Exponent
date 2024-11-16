@@ -111,10 +111,10 @@ const MonthlyBudget = ({ currentMonth }) => {
       {/* Header Section: Display Budget Info and Controls */}
       <div className="flex flex-wrap items-center justify-between gap-4 my-14 px-4">
         <div>
-          <h1 className="text-3xl text-yellow-700 font-semibold">
+          <h1 className="text-3xl text-stone-400 font-semibold">
             {fetchedAmount}
           </h1>
-          <p className="text-sm text-stone-400 mt-1">{month} Monthly Budget</p>
+          <p className="text-sm text-stone-500 mt-1">{month} Monthly Budget</p>
         </div>
 
         <div className="flex items-center gap-2">
@@ -189,7 +189,7 @@ const MonthlyBudget = ({ currentMonth }) => {
             </>
           ) : (
             <>
-              <h1 className="text-2xl text-green-600 font-semibold">
+              <h1 className="text-2xl text-teal-400 font-semibold">
                 {Math.abs(isOverBudget.toFixed(2))}%
               </h1>
               <p className="text-xs text-stone-400 mt-2">
@@ -206,7 +206,7 @@ const MonthlyBudget = ({ currentMonth }) => {
         >
           {fetchedAmount > totalExpenses ? (
             <>
-              <h1 className="text-2xl text-green-600 font-semibold">
+              <h1 className="text-2xl text-teal-400 font-semibold">
                 {withinBudget}
               </h1>
               <p className="text-xs text-stone-400 mt-2">

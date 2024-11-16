@@ -59,17 +59,17 @@ const Rightbar = () => {
       <div className="flex flex-col gap-4 w-72 h-96 p-4">
         <section className="flex gap-4 justify-center">
           <section className=" h-24 w-28 rounded-3xl justify-center items-center flex flex-col shadow-md bg-stone-800">
-            <h1 className="text-2xl text-green-600 font-semibold">8.4</h1>
+            <h1 className="text-2xl text-teal-400 font-semibold">8.4</h1>
             <p className="text-xs text-stone-400 mt-2"> Exponent Score</p>
           </section>
           <section className=" h-24 w-32 rounded-3xl justify-center items-center flex flex-col shadow-md bg-stone-800">
-            <h1 className="text-xl text-green-700 font-semibold">Healthy</h1>
+            <h1 className="text-xl text-teal-500 font-semibold">Healthy</h1>
             <p className="text-xs text-stone-400 mt-2">Financial Habit</p>
           </section>
         </section>
         <section className="border border-stone-700 w-full rounded-3xl p-4 px-8 mt-4">
           <h1 className="text-lg text-stone-300">Recent Inflow</h1>
-          <h1 className="text-green-500 text-2xl font-semibold">
+          <h1 className="text-teal-400 text-2xl font-semibold">
             {latestEarning} ₹
           </h1>
           <p className="text-xs text-stone-400">from {latestEarningCategory}</p>

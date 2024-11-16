@@ -133,7 +133,7 @@ const Analytics = ({ currentMonth }) => {
   // const expenseToEarningsPercentage = (expenses / earnings) * 100;
 
   return (
-    <section className="h-80 bg-gradient-to-r from-stone-950 to-stone-900 rounded-3xl border border-stone-900 p-6 mt-10 w-full cursor-pointer shadow-lg">
+    <section className="h-fit  rounded-3xl border border-stone-900 p-6 mt-10 w-full cursor-pointer shadow-lg">
       <div className="flex justify-around">
         <BarGraph
           data={data}
@@ -146,10 +146,10 @@ const Analytics = ({ currentMonth }) => {
         />
 
         {/* Overview Cards */}
-        <div className="flex flex-col justify-between gap-6">
+        <div className="flex flex-col gap-6 mt-4">
           <div className="flex gap-6">
             <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
-              <h1 className="text-3xl text-green-500 font-semibold">
+              <h1 className="text-3xl text-teal-400 font-semibold">
                 {earnings}
               </h1>
               <p className="text-sm text-stone-400 mt-2">Total Earnings</p>
@@ -163,7 +163,7 @@ const Analytics = ({ currentMonth }) => {
             </section>
 
             <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
-              <h1 className="text-3xl text-green-500 font-semibold">
+              <h1 className="text-3xl text-teal-400 font-semibold">
                 {savings}
               </h1>
               <p className="text-sm text-stone-400 mt-2">Total Savings</p>
@@ -182,7 +182,7 @@ const Analytics = ({ currentMonth }) => {
 
             {isHigher ? (
               <section className="h-28 w-fit px-8 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
-                <h1 className="text-2xl text-green-500 font-semibold">
+                <h1 className="text-2xl text-teal-400 font-semibold">
                   {Math.abs(savingsDifference).toFixed(2)}% higher
                 </h1>
                 <p className="text-sm text-stone-400 mt-2">
