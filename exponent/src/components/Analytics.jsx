@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import BarGraph from "./BarGraph";
+import CategoryBarGraph from "./CategoryBargraph";
 import dayjs from "dayjs"; // Import Day.js
 
 const Analytics = ({ currentMonth }) => {
@@ -11,7 +12,10 @@ const Analytics = ({ currentMonth }) => {
   const [earningExpenseRatio, setEarningExpenseRatio] = useState(0);
   const [data, setData] = useState([]);
   const idealSavingsPercentage = 20;
-
+  const [entCategory, setEntCategory] = useState(0);
+  const [billCategory, setBillCategory] = useState(0);
+  const [groCategory, setGroCategory] = useState(0);
+  const [houseCategory, setHouseCategory] = useState(0);
   const savingsDifference = savingsPercentage - idealSavingsPercentage;
   const isHigher = savingsPercentage > idealSavingsPercentage;
 
@@ -85,7 +89,7 @@ const Analytics = ({ currentMonth }) => {
         const filteredData = allData.filter((item) =>
           dayjs(item.date).isSame(currentMonth, "month")
         );
-        console.log(filteredData);
+        console.log("data: ", filteredData);
 
         // Calculate earnings and expenses for the filtered month
         const earnings = filteredData.filter(
@@ -124,6 +128,55 @@ const Analytics = ({ currentMonth }) => {
         if (totalEarnings == 0 && totalExpenses == 0) {
           setEarningExpenseRatio(0);
         }
+
+        //categories total calculation
+        const entCategory = filteredData.filter(
+          (item) =>
+            item.category.toLowerCase() === "entertainment" &&
+            item.type.toLowerCase() === "expense"
+        );
+        const totalEntCategory = entCategory.reduce(
+          (sum, item) => sum + item.amount,
+          0
+        );
+        console.log(totalEntCategory);
+        setEntCategory(totalEntCategory);
+
+        const billCategory = filteredData.filter(
+          (item) =>
+            item.category.toLowerCase() === "bills" &&
+            item.type.toLowerCase() === "expense"
+        );
+
+        const totalBillCategory = billCategory.reduce(
+          (sum, item) => sum + item.amount,
+          0
+        );
+        setBillCategory(totalBillCategory);
+
+        const groCategory = filteredData.filter(
+          (item) =>
+            item.category.toLowerCase() === "groceries" &&
+            item.type.toLowerCase() === "expense"
+        );
+
+        const totalGroCategory = groCategory.reduce(
+          (sum, item) => sum + item.amount,
+          0
+        );
+        setGroCategory(totalGroCategory);
+
+        const houseCategory = filteredData.filter(
+          (item) =>
+            item.category.toLowerCase() === "household" &&
+            item.type.toLowerCase() === "expense"
+        );
+
+        const totalHouseCategory = houseCategory.reduce(
+          (sum, item) => sum + item.amount,
+          0
+        );
+        setHouseCategory(totalHouseCategory);
       })
       .catch((err) => {
         console.log(err);
@@ -133,76 +186,115 @@ const Analytics = ({ currentMonth }) => {
   // const expenseToEarningsPercentage = (expenses / earnings) * 100;
 
   return (
-    <section className="h-fit  rounded-3xl border border-stone-900 p-6 mt-10 w-full cursor-pointer shadow-lg">
-      <div className="flex justify-around">
-        <BarGraph
-          data={data}
-          earnings={earnings}
-          expenses={expenses}
-          savings={savings}
-          savingsPercentage={savingsPercentage}
-          earningExpenseRatio={earningExpenseRatio}
-          currentMonth={currentMonth}
-        />
+    <>
+      <section className="h-fit  rounded-3xl border border-stone-900 p-6 mt-10 w-full cursor-pointer shadow-lg">
+        <div className="flex justify-around">
+          <BarGraph
+            data={data}
+            earnings={earnings}
+            expenses={expenses}
+            savings={savings}
+            savingsPercentage={savingsPercentage}
+            earningExpenseRatio={earningExpenseRatio}
+            currentMonth={currentMonth}
+          />
 
-        {/* Overview Cards */}
-        <div className="flex flex-col gap-6 mt-4">
-          <div className="flex gap-6">
-            <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
-              <h1 className="text-3xl text-teal-400 font-semibold">
-                {earnings}
-              </h1>
-              <p className="text-sm text-stone-400 mt-2">Total Earnings</p>
-            </section>
+          {/* Overview Cards */}
+          <div className="flex flex-col gap-6 mt-4">
+            <div className="flex gap-6">
+              <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+                <h1 className="text-3xl text-teal-400 font-semibold">
+                  {earnings}
+                </h1>
+                <p className="text-sm text-stone-400 mt-2">Total Earnings</p>
+              </section>
 
-            <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
-              <h1 className="text-3xl text-red-400 font-semibold">
-                {expenses}
-              </h1>
-              <p className="text-sm text-stone-400 mt-2">Total Expenses</p>
-            </section>
+              <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+                <h1 className="text-3xl text-red-400 font-semibold">
+                  {expenses}
+                </h1>
+                <p className="text-sm text-stone-400 mt-2">Total Expenses</p>
+              </section>
 
-            <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
-              <h1 className="text-3xl text-teal-400 font-semibold">
-                {savings}
-              </h1>
-              <p className="text-sm text-stone-400 mt-2">Total Savings</p>
-            </section>
-          </div>
+              <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+                <h1 className="text-3xl text-teal-400 font-semibold">
+                  {savings}
+                </h1>
+                <p className="text-sm text-stone-400 mt-2">Total Savings</p>
+              </section>
+            </div>
 
-          <div className="flex justify-between gap-6">
-            <section className="h-28 w-48 px-4 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
-              <h1 className="text-3xl text-stone-300 font-semibold">
-                {earningExpenseRatio.toFixed(2)}
-              </h1>
-              <p className="text-sm text-stone-400 mt-2">
-                Earning to Expense Ratio
-              </p>
-            </section>
-
-            {isHigher ? (
-              <section className="h-28 w-fit px-8 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
-                <h1 className="text-2xl text-teal-400 font-semibold">
-                  {Math.abs(savingsDifference).toFixed(2)}% higher
+            <div className="flex justify-between gap-6">
+              <section className="h-28 w-48 px-4 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+                <h1 className="text-3xl text-stone-300 font-semibold">
+                  {earningExpenseRatio.toFixed(2)}
                 </h1>
                 <p className="text-sm text-stone-400 mt-2">
-                  savings than the ideal rate.
+                  Earning to Expense Ratio
                 </p>
               </section>
-            ) : (
-              <section className="h-28 w-fit px-8 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
-                <h1 className="text-2xl text-red-400 font-semibold">
-                  {Math.abs(savingsDifference).toFixed(2)}% lower
-                </h1>
-                <p className="text-sm text-stone-400 mt-2">
-                  savings than the ideal rate.
-                </p>
-              </section>
-            )}
+
+              {isHigher ? (
+                <section className="h-28 w-fit px-8 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+                  <h1 className="text-2xl text-teal-400 font-semibold">
+                    {Math.abs(savingsDifference).toFixed(2)}% higher
+                  </h1>
+                  <p className="text-sm text-stone-400 mt-2">
+                    savings than the ideal rate.
+                  </p>
+                </section>
+              ) : (
+                <section className="h-28 w-fit px-8 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+                  <h1 className="text-2xl text-red-400 font-semibold">
+                    {Math.abs(savingsDifference).toFixed(2)}% lower
+                  </h1>
+                  <p className="text-sm text-stone-400 mt-2">
+                    savings than the ideal rate.
+                  </p>
+                </section>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+      <h2 className="text-stone-400 text-xl mt-10">Category wise expenses</h2>
+      <section className="h-fit flex  rounded-3xl border border-stone-900 p-6 mt-10 w-full cursor-pointer shadow-lg">
+        <CategoryBarGraph
+          categoryData={{
+            entertainment: entCategory,
+            bills: billCategory,
+            groceries: groCategory,
+            household: houseCategory,
+          }}
+        />
+        <div className="flex flex-wrap gap-2">
+          <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+            <h1 className="text-3xl text-red-400 font-semibold">
+              {entCategory}
+            </h1>
+            <p className="text-sm text-stone-400 mt-2">Entertainment</p>
+          </section>
+          <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+            <h1 className="text-3xl text-red-400 font-semibold">
+              {billCategory}
+            </h1>
+            <p className="text-sm text-stone-400 mt-2">Bills</p>
+          </section>
+          <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+            <h1 className="text-3xl text-red-400 font-semibold">
+              {groCategory}
+            </h1>
+            <p className="text-sm text-stone-400 mt-2">Groceries</p>
+          </section>
+          <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+            <h1 className="text-3xl text-red-400 font-semibold">
+              {houseCategory}
+            </h1>
+            <p className="text-sm text-stone-400 mt-2">Household</p>
+          </section>
+        </div>
+      </section>
+    </>
   );
 };
 
