@@ -107,9 +107,9 @@ const MonthlyBudget = ({ currentMonth }) => {
   };
 
   return (
-    <div className="mt-8 space-y-6">
+    <div className="mt-8 space-y-6 border-none rounded-3xl p-2 bg-stone-900">
       {/* Header Section: Display Budget Info and Controls */}
-      <div className="flex flex-wrap items-center justify-between gap-4 my-14 px-4">
+      <div className="flex flex-wrap items-center justify-between gap-4 my-8 px-4">
         <div>
           <h1 className="text-3xl text-stone-400 font-semibold">
             {fetchedAmount}
@@ -119,7 +119,7 @@ const MonthlyBudget = ({ currentMonth }) => {
 
         <div className="flex items-center gap-2">
           <select
-            className="rounded-lg h-10 w-48 px-4 cursor-pointer bg-stone-900 text-stone-200 
+            className="rounded-lg h-10 w-48 px-4 cursor-pointer border shadow-md border-stone-800 bg-stone-900 text-stone-200 
                    placeholder:text-stone-500 focus:outline-none"
             onChange={(e) => setMonth(e.target.value)}
           >
@@ -158,11 +158,11 @@ const MonthlyBudget = ({ currentMonth }) => {
               type="text"
               placeholder="Update Budget"
               className="rounded-lg h-10 w-56 px-4 bg-stone-900 text-stone-200 
-                     placeholder:text-stone-500 focus:outline-none"
+                     placeholder:text-stone-500 focus:outline-none border shadow-md border-stone-800"
               onChange={(e) => setAmount(e.target.value)}
             />
             <button
-              className="rounded-lg bg-stone-800 px-4 text-white h-10 hover:bg-stone-700"
+              className="rounded-lg bg-stone-800 px-4 text-white h-10 hover:bg-stone-700 shadow-md"
               onClick={handleBudgetSubmit}
             >
               Update

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const LeftBar = () => {
   return (
-    <div className="w-64 h-screen flex flex-col justify-between p-2 pt-12">
+    <div className="w-64 h-screen flex flex-col justify-between p-2 pt-12 font-new bg-stone-950">
       <ul className="flex flex-col gap-4 items-start">
         <Link to="/home">
           <li className="hover:bg-stone-800 h-8 w-fit px-4 rounded-md cursor-pointer flex gap-2">

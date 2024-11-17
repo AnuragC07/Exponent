@@ -11,7 +11,7 @@ const TransactionDetail = ({ date, source, category, type, amount }) => {
   const formattedDate = formatDate(date);
 
   return (
-    <div className="grid grid-cols-4 gap-4 w-full p-4 items-center bg-stone-900 rounded-xl">
+    <div className="grid grid-cols-4 gap-4 w-full p-4 items-center bg-stone-900 rounded-xl font-new">
       <p className="text-stone-400">{formattedDate}</p>
       <p className="text-stone-400">{source}</p>
       <p className="text-stone-400">{category}</p>

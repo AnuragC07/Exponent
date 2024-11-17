@@ -170,7 +170,7 @@ const LineGraph = ({ data, currentMonth }) => {
   };
 
   return (
-    <div className="w-full bg-stone-950 rounded-lg px-6">
+    <div className="w-full bg-stone-950 rounded-lg px-6 font-new">
       <div className="h-[300px]">
         <Line data={chartData} options={options} />
       </div>

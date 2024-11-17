@@ -5,6 +5,7 @@ import Tab from "../components/Tab";
 import SortRoundedIcon from "@mui/icons-material/SortRounded";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import MonthlyBudget from "../components/MonthlyBudget";
 import TransactionDetail from "../components/TransactionDetail";
 import Analytics from "../components/Analytics";
@@ -143,14 +144,16 @@ const Home = () => {
   };
 
   return (
-    <div>
-      <Navbar />
-      <div className="flex h-full bg-stone-900">
+    <div className="bg-stone-950">
+      <div className="flex justify-center mr-20">
+        <Navbar />
+      </div>
+      <div className="flex h-full bg-stone-950">
         <LeftBar />
-        <main className="w-screen p-2 px-4 rounded-3xl bg-stone-950 pt-4 mt-4 mb-4 shadow-md">
+        <main className="w-screen p-2 px-4 rounded-3xl bg-stone-950 pt-4 mt-4 mb-4 shadow-md font-new">
           <section className="flex flex-col">
             <div className="flex flex-col items-center mt-4">
-              <div className="flex justify-around w-full">
+              <div className="flex justify-around w-full ">
                 <div
                   className="flex justify-center items-center"
                   onClick={() => handleMonthChange("prev")}
@@ -168,19 +171,21 @@ const Home = () => {
                 </div>
               </div>
               <Analytics currentMonth={currentMonth} />
-              <section className="border-b-2 border-b-stone-900 pb-7">
+              <section className="border-b-2 border-b-stone-900 pb-7 font-new">
                 <MonthlyBudget currentMonth={currentMonth} />
                 <section className="mt-10 border border-stone-900 rounded-3xl p-8 w-full shadow-2xl bg-gradient-to-r from-stone-950 to-stone-900">
-                  <h1 className="text-2xl text-white mb-6 font-semibold">
-                    Add a New Entry
-                  </h1>
-
+                  <div className="flex justify-between">
+                    <h1 className="text-2xl text-white mb-6 font-semibold">
+                      Add a New Entry
+                    </h1>
+                    <AddRoundedIcon className="text-teal-600 border border-dotted  border-stone-600 rounded-full" />
+                  </div>
                   <div className="flex flex-wrap gap-4">
                     {/* Amount Input: Only Numbers */}
                     <input
                       type="number"
                       placeholder="Enter Amount"
-                      className="flex-1 min-w-[200px] rounded-md h-12 px-4 bg-stone-800 text-white placeholder:text-stone-500 focus:outline-none focus:ring-2 focus:ring-green-900"
+                      className="flex-1 min-w-[200px] rounded-md h-12 px-4 bg-stone-800 text-white placeholder:text-stone-500 focus:outline-none focus:ring-2 focus:ring-stone-700"
                       onChange={(e) => {
                         const value = e.target.value;
                         if (/^\d*$/.test(value)) setAmount(value); // Allow only digits
@@ -191,7 +196,7 @@ const Home = () => {
                     <input
                       type="text"
                       placeholder="Enter Type (earning / expense)"
-                      className="flex-1 min-w-[250px] rounded-md h-12 px-4 bg-stone-800 text-white placeholder:text-stone-500 focus:outline-none focus:ring-2 focus:ring-green-900"
+                      className="flex-1 min-w-[250px] rounded-md h-12 px-4 bg-stone-800 text-white placeholder:text-stone-500 focus:outline-none focus:ring-2 focus:ring-stone-700"
                       onChange={handleType}
                     />
 
@@ -199,7 +204,7 @@ const Home = () => {
                     <input
                       type="text"
                       placeholder="Enter Source (e.g., Gpay)"
-                      className="flex-1 min-w-[200px] rounded-md h-12 px-4 bg-stone-800 text-white placeholder:text-stone-500 focus:outline-none focus:ring-2 focus:ring-green-900"
+                      className="flex-1 min-w-[200px] rounded-md h-12 px-4 bg-stone-800 text-white placeholder:text-stone-500 focus:outline-none focus:ring-2 focus:ring-stone-700"
                       onChange={(e) => {
                         const value = e.target.value;
                         if (/^[a-zA-Z\s]*$/.test(value)) setSource(value); // Allow only letters and spaces
@@ -209,13 +214,13 @@ const Home = () => {
                     {/* Date Input */}
                     <input
                       type="date"
-                      className="flex-1 min-w-[200px] rounded-md h-12 px-4 cursor-pointer bg-stone-800 text-white placeholder:text-stone-500 focus:outline-none focus:ring-2 focus:ring-green-900"
+                      className="flex-1 min-w-[200px] rounded-md h-12 px-4 cursor-pointer bg-stone-800 text-white placeholder:text-stone-500 focus:outline-none focus:ring-2 focus:ring-stone-700"
                       onChange={(e) => setDate(e.target.value)}
                     />
 
                     {/* Category Input */}
                     <select
-                      className="flex-1 min-w-[200px] rounded-md h-12 px-4 bg-stone-800 text-white cursor-pointer focus:outline-none focus:ring-2 focus:ring-green-900"
+                      className="flex-1 min-w-[200px] rounded-md h-12 px-4 bg-stone-800 text-white cursor-pointer focus:outline-none focus:ring-2 focus:ring-stone-700"
                       onChange={(e) => setCategory(e.target.value)}
                     >
                       <option value="">Select Category</option>
@@ -225,9 +230,8 @@ const Home = () => {
                       <option value="Household">Household</option>
                     </select>
                   </div>
-
                   <button
-                    className="mt-8 w-full md:w-fit rounded-md bg-gradient-to-r from-stone-900 to-stone-800 transition-colors px-12 py-3 text-white font-semibold shadow-lg"
+                    className="mt-8 w-full md:w-fit rounded-md bg-gradient-to-r from-stone-900 to-stone-800 transition-colors px-12 py-3 text-white font-semibold shadow-md"
                     onClick={handleListTransaction}
                   >
                     Add Entry
@@ -235,7 +239,7 @@ const Home = () => {
                 </section>
 
                 <div className="flex justify-center items-center mt-10">
-                  <h1 className="text-xl text-stone-200">
+                  <h1 className="text-xl text-stone-200 font-new">
                     Recent Transactions
                   </h1>
                 </div>

@@ -64,7 +64,7 @@ const Login = () => {
   return (
     <div>
       {/* <img src={logo} alt="beetle logo" className="m-5 absolute right-32 " /> */}
-      <div className="flex h-screen">
+      <div className="flex h-screen font-new">
         {/* Image Section */}
         <div className="w-1/2">
           <img
@@ -123,7 +123,7 @@ const Login = () => {
             <h1 className="text-base text-stone-600 font-subtitle font-semibold">
               New here?{" "}
               <Link
-                to="/register"
+                to="/signup"
                 className="text-base text-green-600 font-subtitle font-semibold"
               >
                 Sign up

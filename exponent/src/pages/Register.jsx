@@ -42,7 +42,7 @@ const Register = () => {
   return (
     <div>
       <img src={logo} alt="Exponent logo" className="m-5 absolute top-0" />
-      <div className="flex h-screen">
+      <div className="flex h-screen font-new">
         <div
           id="body"
           className="flex flex-col justify-center items-center w-1/2"

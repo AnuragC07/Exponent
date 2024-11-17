@@ -56,7 +56,7 @@ const Rightbar = () => {
 
   return (
     <div>
-      <div className="flex flex-col gap-4 w-72 h-96 p-4">
+      <div className="flex flex-col gap-4 w-72 h-96 p-4 font-new">
         <section className="flex gap-4 justify-center">
           <section className=" h-24 w-28 rounded-3xl justify-center items-center flex flex-col shadow-md bg-stone-800">
             <h1 className="text-2xl text-teal-400 font-semibold">8.4</h1>

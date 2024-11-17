@@ -16,6 +16,10 @@ const Analytics = ({ currentMonth }) => {
   const [billCategory, setBillCategory] = useState(0);
   const [groCategory, setGroCategory] = useState(0);
   const [houseCategory, setHouseCategory] = useState(0);
+  const [entCategoryRatio, setEntCategoryRatio] = useState(0);
+  const [billCategoryRatio, setBillCategoryRatio] = useState(0);
+  const [groCategoryRatio, setGroCategoryRatio] = useState(0);
+  const [houseCategoryRatio, setHouseCategoryRatio] = useState(0);
   const savingsDifference = savingsPercentage - idealSavingsPercentage;
   const isHigher = savingsPercentage > idealSavingsPercentage;
 
@@ -177,6 +181,31 @@ const Analytics = ({ currentMonth }) => {
           0
         );
         setHouseCategory(totalHouseCategory);
+
+        //catgory ratios
+        const entCategoryRatio = (totalEntCategory / totalExpenses) * 100;
+        const formattedEntCategoryRatio = parseFloat(
+          entCategoryRatio.toFixed(2)
+        );
+        setEntCategoryRatio(formattedEntCategoryRatio);
+
+        const billCategoryRatio = (totalBillCategory / totalExpenses) * 100;
+        const formattedBillCategoryRatio = parseFloat(
+          billCategoryRatio.toFixed(2)
+        );
+        setBillCategoryRatio(formattedBillCategoryRatio);
+
+        const groCategoryRatio = (totalGroCategory / totalExpenses) * 100;
+        const formattedGroCategoryRatio = parseFloat(
+          groCategoryRatio.toFixed(2)
+        );
+        setGroCategoryRatio(formattedGroCategoryRatio);
+
+        const houseCategoryRatio = (totalHouseCategory / totalExpenses) * 100;
+        const formattedHouseCategoryRatio = parseFloat(
+          houseCategoryRatio.toFixed(2)
+        );
+        setHouseCategoryRatio(formattedHouseCategoryRatio);
       })
       .catch((err) => {
         console.log(err);
@@ -187,7 +216,7 @@ const Analytics = ({ currentMonth }) => {
 
   return (
     <>
-      <section className="h-fit  rounded-3xl border border-stone-900 p-6 mt-10 w-full cursor-pointer shadow-lg">
+      <section className="h-fit  rounded-3xl border border-stone-900 bg-stone-900 p-6 mt-10 w-full cursor-pointer shadow-lg">
         <div className="flex justify-around">
           <BarGraph
             data={data}
@@ -258,7 +287,7 @@ const Analytics = ({ currentMonth }) => {
         </div>
       </section>
       <h2 className="text-stone-400 text-xl mt-10">Category wise expenses</h2>
-      <section className="h-fit flex  rounded-3xl border border-stone-900 p-6 mt-10 w-full cursor-pointer shadow-lg">
+      <section className="h-fit flex flex-row justify-between  rounded-3xl border border-stone-900 bg-stone-900 p-6 mt-10 w-full cursor-pointer shadow-lg">
         <CategoryBarGraph
           categoryData={{
             entertainment: entCategory,
@@ -267,10 +296,10 @@ const Analytics = ({ currentMonth }) => {
             household: houseCategory,
           }}
         />
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 w-fit">
           <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
             <h1 className="text-3xl text-red-400 font-semibold">
-              {entCategory}
+              {entCategory} ₹
             </h1>
             <p className="text-sm text-stone-400 mt-2">Entertainment</p>
           </section>
@@ -292,6 +321,37 @@ const Analytics = ({ currentMonth }) => {
             </h1>
             <p className="text-sm text-stone-400 mt-2">Household</p>
           </section>
+          <div className="flex flex-col">
+            <h2 className="text-stone-400 text-xl mt-10 flex justify-center">
+              Category wise contribution to total expense
+            </h2>
+            <div className="flex gap-2">
+              <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+                <h1 className="text-3xl text-red-400 font-semibold">
+                  {entCategoryRatio}
+                </h1>
+                <p className="text-sm text-stone-400 mt-2">Household</p>
+              </section>
+              <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+                <h1 className="text-3xl text-red-400 font-semibold">
+                  {billCategoryRatio}
+                </h1>
+                <p className="text-sm text-stone-400 mt-2">Household</p>
+              </section>
+              <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+                <h1 className="text-3xl text-red-400 font-semibold">
+                  {groCategoryRatio}
+                </h1>
+                <p className="text-sm text-stone-400 mt-2">Household</p>
+              </section>
+              <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+                <h1 className="text-3xl text-red-400 font-semibold">
+                  {houseCategoryRatio}
+                </h1>
+                <p className="text-sm text-stone-400 mt-2">Household</p>
+              </section>
+            </div>
+          </div>
         </div>
       </section>
     </>
