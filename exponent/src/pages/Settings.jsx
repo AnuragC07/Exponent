@@ -10,11 +10,13 @@ const Settings = () => {
   };
 
   return (
-    <div>
-      <Navbar />
-      <div className="flex h-full bg-stone-900">
+    <div className="bg-stone-950">
+      <div className="flex justify-center mr-20">
+        <Navbar />
+      </div>
+      <div className="flex h-full bg-stone-950">
         <LeftBar />
-        <section className="mt-4 p-8 w-2/3 h-72 bg-stone-950 rounded-2xl">
+        <section className="mt-4 p-8 w-2/3 h-72 bg-stone-950 border border-stone-900 shadow-md rounded-2xl">
           <div>
             <h1 className="text-2xl text-stone-200 mb-8">Settings</h1>
             <div className="flex gap-4">

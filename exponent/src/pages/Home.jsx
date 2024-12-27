@@ -184,7 +184,7 @@ const Home = () => {
                     {/* Amount Input: Only Numbers */}
                     <input
                       type="number"
-                      placeholder="Enter Amount"
+                      placeholder="Amount"
                       className="flex-1 min-w-[200px] rounded-md h-12 px-4 bg-stone-800 text-white placeholder:text-stone-500 focus:outline-none focus:ring-2 focus:ring-stone-700"
                       onChange={(e) => {
                         const value = e.target.value;
@@ -195,7 +195,7 @@ const Home = () => {
                     {/* Type Input: Accepts only Strings */}
                     <input
                       type="text"
-                      placeholder="Enter Type (earning / expense)"
+                      placeholder="Type (earning / expense)"
                       className="flex-1 min-w-[250px] rounded-md h-12 px-4 bg-stone-800 text-white placeholder:text-stone-500 focus:outline-none focus:ring-2 focus:ring-stone-700"
                       onChange={handleType}
                     />
@@ -203,7 +203,7 @@ const Home = () => {
                     {/* Source Input: Accepts only Strings */}
                     <input
                       type="text"
-                      placeholder="Enter Source (e.g., Gpay)"
+                      placeholder="Source (e.g. Gpay)"
                       className="flex-1 min-w-[200px] rounded-md h-12 px-4 bg-stone-800 text-white placeholder:text-stone-500 focus:outline-none focus:ring-2 focus:ring-stone-700"
                       onChange={(e) => {
                         const value = e.target.value;
@@ -223,7 +223,7 @@ const Home = () => {
                       className="flex-1 min-w-[200px] rounded-md h-12 px-4 bg-stone-800 text-white cursor-pointer focus:outline-none focus:ring-2 focus:ring-stone-700"
                       onChange={(e) => setCategory(e.target.value)}
                     >
-                      <option value="">Select Category</option>
+                      <option value="">Category</option>
                       <option value="Entertainment">Entertainment</option>
                       <option value="Bills">Bills</option>
                       <option value="Groceries">Groceries</option>

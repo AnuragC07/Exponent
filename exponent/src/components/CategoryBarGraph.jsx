@@ -24,12 +24,12 @@ ChartJS.register(
 );
 
 const CategoryLineGraph = ({ categoryData }) => {
-  const labels = ["Entertainment", "Bills", "Groceries", "Household"];
+  const labels = ["Ent.", "Bills", "Groc.", "Househld."];
   const data = {
     labels,
     datasets: [
       {
-        label: "Entertainment",
+        label: "Ent.",
         data: [categoryData.entertainment, 0, 0, 0],
         borderColor: "#a78bfa", // Purple
         backgroundColor: "rgba(167, 139, 250, 0.1)",
@@ -61,7 +61,7 @@ const CategoryLineGraph = ({ categoryData }) => {
         pointBorderWidth: 2,
       },
       {
-        label: "Groceries",
+        label: "Groc.",
         data: [0, 0, categoryData.groceries, 0],
         borderColor: "#f472b6", // Pink
         backgroundColor: "rgba(244, 114, 182, 0.1)",
@@ -77,7 +77,7 @@ const CategoryLineGraph = ({ categoryData }) => {
         pointBorderWidth: 2,
       },
       {
-        label: "Household",
+        label: "Househld.",
         data: [0, 0, 0, categoryData.household],
         borderColor: "#86efac", // Green
         backgroundColor: "rgba(134, 239, 172, 0.1)",

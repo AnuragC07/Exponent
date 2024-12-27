@@ -173,6 +173,32 @@ const MonthlyBudget = ({ currentMonth }) => {
 
       {/* Budget Overview Cards */}
       <div className="bg-stone-900 rounded-3xl p-4 flex flex-wrap gap-4 cursor-pointer">
+        {/* Budget Status Card */}
+        <section
+          className="h-24 px-8 rounded-3xl flex flex-col items-center justify-center 
+                      shadow-md border border-stone-800 bg-stone-900"
+        >
+          {fetchedAmount > totalExpenses ? (
+            <>
+              <h1 className="text-2xl text-teal-400 font-semibold">
+                {withinBudget}
+              </h1>
+              <p className="text-xs text-stone-400 mt-2">
+                more to spend within budget
+              </p>
+            </>
+          ) : (
+            <>
+              <h1 className="text-2xl text-red-400 font-semibold">
+                {overBudget}
+              </h1>
+              <p className="text-xs text-stone-400 mt-2">
+                already spent over budget
+              </p>
+            </>
+          )}
+        </section>
+
         {/* Over/Under Budget Card */}
         <section
           className="h-24 px-8 rounded-3xl flex flex-col items-center justify-center 
@@ -194,32 +220,6 @@ const MonthlyBudget = ({ currentMonth }) => {
               </h1>
               <p className="text-xs text-stone-400 mt-2">
                 spending under the budget amount.
-              </p>
-            </>
-          )}
-        </section>
-
-        {/* Budget Status Card */}
-        <section
-          className="h-24 px-8 rounded-3xl flex flex-col items-center justify-center 
-                      shadow-md border border-stone-800 bg-stone-900"
-        >
-          {fetchedAmount > totalExpenses ? (
-            <>
-              <h1 className="text-2xl text-teal-400 font-semibold">
-                {withinBudget}
-              </h1>
-              <p className="text-xs text-stone-400 mt-2">
-                to spend within budget
-              </p>
-            </>
-          ) : (
-            <>
-              <h1 className="text-2xl text-red-400 font-semibold">
-                {overBudget}
-              </h1>
-              <p className="text-xs text-stone-400 mt-2">
-                already spent over budget
               </p>
             </>
           )}
