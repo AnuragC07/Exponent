@@ -107,14 +107,16 @@ const MonthlyBudget = ({ currentMonth }) => {
   };
 
   return (
-    <div className="mt-8 space-y-6 border-none rounded-3xl p-2 bg-stone-900">
+    <div className="mt-8 space-y-6 rounded-3xl p-2 bg-stone-950 border border-stone-900">
       {/* Header Section: Display Budget Info and Controls */}
       <div className="flex flex-wrap items-center justify-between gap-4 my-8 px-4">
         <div>
-          <h1 className="text-3xl text-stone-400 font-semibold">
-            {fetchedAmount}
+          <h1 className="text-2xl text-stone-100 font-semibold">
+            {month} Monthly Budget
           </h1>
-          <p className="text-sm text-stone-500 mt-1">{month} Monthly Budget</p>
+          <p className="text-2xl text-stone-500 mt-1 font-semibold">
+            {fetchedAmount} ₹
+          </p>
         </div>
 
         <div className="flex items-center gap-2">
@@ -172,11 +174,11 @@ const MonthlyBudget = ({ currentMonth }) => {
       </div>
 
       {/* Budget Overview Cards */}
-      <div className="bg-stone-900 rounded-3xl p-4 flex flex-wrap gap-4 cursor-pointer">
+      <div className="bg-stone-950 rounded-3xl p-4 flex flex-wrap gap-4 cursor-pointer">
         {/* Budget Status Card */}
         <section
           className="h-24 px-8 rounded-3xl flex flex-col items-center justify-center 
-                      shadow-md border border-stone-800 bg-stone-900"
+                      shadow-md border border-stone-900 bg-gradient-to-t from-stone-950 to-stone-900"
         >
           {fetchedAmount > totalExpenses ? (
             <>
@@ -202,7 +204,7 @@ const MonthlyBudget = ({ currentMonth }) => {
         {/* Over/Under Budget Card */}
         <section
           className="h-24 px-8 rounded-3xl flex flex-col items-center justify-center 
-                      shadow-md border border-stone-800 bg-stone-900"
+                      shadow-md border border-stone-900 bg-gradient-to-t from-stone-950 to-stone-900"
         >
           {isOverBudget > 0 ? (
             <>

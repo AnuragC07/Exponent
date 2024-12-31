@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import BarGraph from "./BarGraph";
 import CategoryBarGraph from "./CategoryBargraph";
 import dayjs from "dayjs"; // Import Day.js
-
+import ailogo from "../assets/ai logo.svg";
 const Analytics = ({ currentMonth }) => {
   const [earnings, setEarnings] = useState(0);
   const [expenses, setExpenses] = useState(0);
@@ -216,7 +216,7 @@ const Analytics = ({ currentMonth }) => {
 
   return (
     <>
-      <section className="h-fit  rounded-3xl border border-stone-900 bg-stone-900 p-4 mt-10 w-full cursor-pointer shadow-lg">
+      <section className="h-fit  rounded-3xl border border-stone-900 bg-stone-950 p-4 mt-10 w-full cursor-pointer shadow-lg">
         <div className="flex justify-around">
           <BarGraph
             data={data}
@@ -231,21 +231,21 @@ const Analytics = ({ currentMonth }) => {
           {/* Overview Cards */}
           <div className="flex flex-col gap-14 mt-4 ml-4">
             <div className="flex gap-4">
-              <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+              <section className="h-28 w-32 rounded-3xl border border-stone-900 bg-gradient-to-t from-stone-950 to-stone-900 flex flex-col justify-center items-center shadow-lg">
                 <h1 className="text-2xl text-teal-400 font-semibold">
                   {earnings} ₹
                 </h1>
                 <p className="text-sm text-stone-400 mt-2">Total Earnings</p>
               </section>
 
-              <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+              <section className="h-28 w-32 rounded-3xl border border-stone-900 bg-gradient-to-t from-stone-950 to-stone-900 flex flex-col justify-center items-center shadow-lg ">
                 <h1 className="text-2xl text-red-400 font-semibold">
                   {expenses} ₹
                 </h1>
                 <p className="text-sm text-stone-400 mt-2">Total Expenses</p>
               </section>
 
-              <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+              <section className="h-28 w-32 rounded-3xl border border-stone-900 bg-gradient-to-t from-stone-950 to-stone-900 flex flex-col justify-center items-center shadow-lg ">
                 <h1 className="text-2xl text-teal-400 font-semibold">
                   {savings} ₹
                 </h1>
@@ -254,7 +254,7 @@ const Analytics = ({ currentMonth }) => {
             </div>
 
             <div className="flex justify-between gap-6">
-              <section className="h-28 w-48 px-4 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+              <section className="h-28 w-48 px-4 rounded-3xl border border-stone-900 bg-gradient-to-t from-stone-950 to-stone-900 flex flex-col justify-center items-center shadow-lg ">
                 <h1 className="text-2xl text-stone-300 font-semibold">
                   {earningExpenseRatio.toFixed(2)}
                 </h1>
@@ -264,7 +264,7 @@ const Analytics = ({ currentMonth }) => {
               </section>
 
               {isHigher ? (
-                <section className="h-28 w-fit px-8 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+                <section className="h-28 w-fit px-8 rounded-3xl border border-stone-900 bg-gradient-to-t from-stone-950 to-stone-900 flex flex-col justify-center items-center shadow-lg ">
                   <div className="text-xl text-teal-400 font-semibold">
                     <h1>{Math.abs(savingsDifference).toFixed(2)}% higher</h1>
                   </div>
@@ -273,7 +273,7 @@ const Analytics = ({ currentMonth }) => {
                   </p>
                 </section>
               ) : (
-                <section className="h-28 w-fit px-8 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+                <section className="h-28 w-fit px-8 rounded-3xl border border-stone-900 bg-gradient-to-t from-stone-950 to-stone-900 flex flex-col justify-center items-center shadow-lg ">
                   <div className="text-xl text-red-400 font-semibold">
                     <h1>{Math.abs(savingsDifference).toFixed(2)}% lower</h1>
                   </div>
@@ -286,8 +286,10 @@ const Analytics = ({ currentMonth }) => {
           </div>
         </div>
       </section>
-      <h2 className="text-stone-400 text-xl mt-10">Category wise expenses</h2>
-      <section className="h-fit flex flex-row justify-between  rounded-3xl border border-stone-900 bg-stone-900 p-4 mt-10 w-full cursor-pointer shadow-lg">
+      <h2 className="text-stone-400 text-xl mt-10">
+        Your category wise expenses
+      </h2>
+      <section className="h-fit flex flex-row justify-between  rounded-3xl border border-stone-900 bg-stone-950 p-4 mt-10 w-full cursor-pointer shadow-lg">
         <CategoryBarGraph
           categoryData={{
             entertainment: entCategory,
@@ -298,55 +300,55 @@ const Analytics = ({ currentMonth }) => {
         />
         <div className="flex flex-col gap-11 w-fit ml-2">
           <div className="flex gap-2">
-            <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+            <section className="h-28 w-32 rounded-3xl border border-stone-900 bg-gradient-to-t from-stone-950 to-stone-900 flex flex-col justify-center items-center shadow-lg ">
               <h1 className="text-2xl text-red-400 font-semibold">
                 {entCategory} ₹
               </h1>
               <p className="text-sm text-stone-400 mt-2">Entertainment</p>
             </section>
-            <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+            <section className="h-28 w-32 rounded-3xl border border-stone-900 bg-gradient-to-t from-stone-950 to-stone-900 flex flex-col justify-center items-center shadow-lg ">
               <h1 className="text-2xl text-red-400 font-semibold">
-                {billCategory}
+                {billCategory} ₹
               </h1>
               <p className="text-sm text-stone-400 mt-2">Bills</p>
             </section>
-            <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+            <section className="h-28 w-32 rounded-3xl border border-stone-900 bg-gradient-to-t from-stone-950 to-stone-900 flex flex-col justify-center items-center shadow-lg ">
               <h1 className="text-2xl text-red-400 font-semibold">
-                {groCategory}
+                {groCategory} ₹
               </h1>
               <p className="text-sm text-stone-400 mt-2">Groceries</p>
             </section>
-            <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+            <section className="h-28 w-32 rounded-3xl border border-stone-900 bg-gradient-to-t from-stone-950 to-stone-900 flex flex-col justify-center items-center shadow-lg ">
               <h1 className="text-2xl text-red-400 font-semibold">
-                {houseCategory}
+                {houseCategory} ₹
               </h1>
               <p className="text-sm text-stone-400 mt-2">Household</p>
             </section>
           </div>
           <div className="flex flex-col">
-            <h2 className="text-stone-400 text-xl mt-6 mb-4 flex justify-center">
-              Category wise contribution to total expense
+            <h2 className="text-stone-400 text-lg mt-6 mb-4 flex justify-center">
+              Category wise contribution (%) to total expense
             </h2>
             <div className="flex gap-2">
-              <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+              <section className="h-28 w-32 rounded-3xl border border-stone-900 bg-gradient-to-t from-stone-950 to-stone-900 flex flex-col justify-center items-center shadow-lg ">
                 <h1 className="text-2xl text-red-400 font-semibold">
                   {entCategoryRatio}
                 </h1>
                 <p className="text-sm text-stone-400 mt-2">Household</p>
               </section>
-              <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+              <section className="h-28 w-32 rounded-3xl border border-stone-900 bg-gradient-to-t from-stone-950 to-stone-900 flex flex-col justify-center items-center shadow-lg ">
                 <h1 className="text-2xl text-red-400 font-semibold">
                   {billCategoryRatio}
                 </h1>
                 <p className="text-sm text-stone-400 mt-2">Household</p>
               </section>
-              <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+              <section className="h-28 w-32 rounded-3xl border border-stone-900 bg-gradient-to-t from-stone-950 to-stone-900 flex flex-col justify-center items-center shadow-lg ">
                 <h1 className="text-2xl text-red-400 font-semibold">
                   {groCategoryRatio}
                 </h1>
                 <p className="text-sm text-stone-400 mt-2">Household</p>
               </section>
-              <section className="h-28 w-32 rounded-3xl border border-stone-800 bg-gradient-to-t from-stone-900 to-stone-800 flex flex-col justify-center items-center shadow-lg hover:scale-105 transition">
+              <section className="h-28 w-32 rounded-3xl border border-stone-900 bg-gradient-to-t from-stone-950 to-stone-900 flex flex-col justify-center items-center shadow-lg ">
                 <h1 className="text-2xl text-red-400 font-semibold">
                   {houseCategoryRatio}
                 </h1>
@@ -355,6 +357,12 @@ const Analytics = ({ currentMonth }) => {
             </div>
           </div>
         </div>
+      </section>
+      <section className="mt-4 mb-4">
+        <button className="border border-stone-900 px-4 py-1 rounded-xl flex gap-2 shadow-md shadow-lime-950 hover:border-lime-950 hover:shadow-none transform delay-100">
+          <img src={ailogo} alt="" />
+          <p className="text-lg font-new text-stone-400 ">Get AI Insights</p>
+        </button>
       </section>
     </>
   );

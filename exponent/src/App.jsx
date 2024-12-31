@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Settings from "./pages/Settings";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-import FullAnalytics from "./pages/FullAnalytics";
+// import FullAnalytics from "./pages/FullAnalytics";
 import Landing from "./pages/Landing";
 import Enterdata from "./pages/Enterdata";
 
@@ -16,7 +16,6 @@ const App = () => {
       <Route path="/settings" element={<Settings />} />
       <Route path="/signup" element={<Register />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/analytics" element={<FullAnalytics />} />
     </Routes>
   );
 };

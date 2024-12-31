@@ -123,7 +123,8 @@ const CategoryLineGraph = ({ categoryData }) => {
         cornerRadius: 8,
         displayColors: false,
         callbacks: {
-          label: (context) => `${context.dataset.label}: $${context.raw || 0}`,
+          label: (context) =>
+            `${context.dataset.label}: ₹${context.raw || 0} ₹`,
         },
       },
     },
@@ -159,7 +160,7 @@ const CategoryLineGraph = ({ categoryData }) => {
             size: 12,
           },
           padding: 12,
-          callback: (value) => `$${value}`,
+          callback: (value) => `${value} ₹`,
         },
       },
     },
