@@ -22,6 +22,9 @@ const Analytics = ({ currentMonth }) => {
   const [houseCategoryRatio, setHouseCategoryRatio] = useState(0);
   const savingsDifference = savingsPercentage - idealSavingsPercentage;
   const isHigher = savingsPercentage > idealSavingsPercentage;
+  const [insight, setInsight] = useState("");
+
+  const apiKey = process.env.REACT_APP_GEMINI_API_KEY;
 
   // useEffect(() => {
   //   axios
@@ -214,6 +217,51 @@ const Analytics = ({ currentMonth }) => {
 
   // const expenseToEarningsPercentage = (expenses / earnings) * 100;
 
+  async function generateInsights() {
+    setInsight("Generating AI insights...");
+
+    try {
+      const response = await axios({
+        url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`,
+        method: "post",
+        data: {
+          contents: [
+            {
+              parts: [
+                {
+                  text: `Analyze the following financial details and suggest **actionable insights** to optimize spending and savings. Provide each suggestion without any bold or headings.
+
+1. Total Earnings: ${earnings}
+2. Total Expenses: ${expenses}
+3. Total Savings: ${savings}
+4. Earnings to Expense Ratio: ${earningExpenseRatio}
+6. Category-wise Expenses (in ₹):
+   - Entertainment: ${entCategory}
+   - Bills: ${billCategory}
+   - Groceries: ${groCategory}
+   - Household: ${houseCategory}
+7. Category-wise Contribution to Total Expenses (in %):
+   - Entertainment: ${entCategoryRatio}%
+   - Bills: ${billCategoryRatio}%
+   - Groceries: ${groCategoryRatio}%
+   - Household: ${houseCategoryRatio}%
+8. Timeframe: ${currentMonth}
+
+Only provide concise and meaningful points
+Keep it brief and to the point.`,
+                },
+              ],
+            },
+          ],
+        },
+      });
+      setInsight(response.data.candidates[0].content.parts[0].text);
+    } catch (error) {
+      console.error("Error generating title:", error);
+      setInsight("Failed to generate title. Please try again.");
+    }
+  }
+
   return (
     <>
       <section className="h-fit  rounded-3xl border border-stone-900 bg-stone-950 p-4 mt-10 w-full cursor-pointer shadow-lg">
@@ -359,7 +407,10 @@ const Analytics = ({ currentMonth }) => {
         </div>
       </section>
       <section className="mt-8 mb-4 flex flex-col justify-center items-center gap-4">
-        <button className="border border-stone-900 px-4 py-1 rounded-xl flex gap-2 shadow-md shadow-lime-950 hover:border-lime-950 hover:shadow-none transform delay-100 w-fit">
+        <button
+          className="border border-stone-900 px-4 py-1 rounded-xl flex gap-2 shadow-md shadow-lime-950 hover:border-lime-950 hover:shadow-none transform delay-100 w-fit"
+          // onClick={generateInsights}   //turn off the comment to hit the gemini ai. Turned off to avoid unnecessary api calls
+        >
           <img src={ailogo} alt="" />
           <p className="text-lg font-new text-stone-400 ">Get AI Insights</p>
         </button>
@@ -368,12 +419,7 @@ const Analytics = ({ currentMonth }) => {
             <img src={ailogo} alt="" />
             <p className="text-lg font-new text-lime-600">AI Insight</p>
           </div>
-          <h1 className="text-stone-500 text-base">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laboriosam
-            quas, explicabo quasi sit eligendi beatae incidunt labore ullam
-            doloremque enim fuga similique? Doloremque officiis nobis quaerat
-            facilis, saepe ad magni.
-          </h1>
+          <h1 className="text-stone-500 text-base">{insight}</h1>
         </section>
       </section>
     </>
