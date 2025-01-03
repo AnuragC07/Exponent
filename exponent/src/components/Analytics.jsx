@@ -358,11 +358,23 @@ const Analytics = ({ currentMonth }) => {
           </div>
         </div>
       </section>
-      <section className="mt-4 mb-4">
-        <button className="border border-stone-900 px-4 py-1 rounded-xl flex gap-2 shadow-md shadow-lime-950 hover:border-lime-950 hover:shadow-none transform delay-100">
+      <section className="mt-8 mb-4 flex flex-col justify-center items-center gap-4">
+        <button className="border border-stone-900 px-4 py-1 rounded-xl flex gap-2 shadow-md shadow-lime-950 hover:border-lime-950 hover:shadow-none transform delay-100 w-fit">
           <img src={ailogo} alt="" />
           <p className="text-lg font-new text-stone-400 ">Get AI Insights</p>
         </button>
+        <section className="w-full border border-stone-900 rounded-2xl flex flex-col p-2 px-4">
+          <div className="flex gap-2 px-2 py-1 w-fit">
+            <img src={ailogo} alt="" />
+            <p className="text-lg font-new text-lime-600">AI Insight</p>
+          </div>
+          <h1 className="text-stone-500 text-base">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laboriosam
+            quas, explicabo quasi sit eligendi beatae incidunt labore ullam
+            doloremque enim fuga similique? Doloremque officiis nobis quaerat
+            facilis, saepe ad magni.
+          </h1>
+        </section>
       </section>
     </>
   );
